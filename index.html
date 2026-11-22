@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f1115">
+<meta name="robots" content="noindex,nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Kata Training · Marcos</title>
+<style>
+:root{
+  --bg:#0f1115;--bg2:#171a21;--card:#1d212a;--card2:#252a35;--line:#2e3442;
+  --txt:#eef1f6;--mut:#9aa3b2;--dim:#6b7383;
+  --acc:#ff6b35;--acc2:#ffb347;--ok:#3ecf8e;--warn:#ffcc4d;--bad:#ff5d6c;--blue:#5aa9ff;
+  --r:16px;--safe:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3,h4{margin:0 0 .4em;line-height:1.2}
+h1{font-size:1.5rem}h2{font-size:1.2rem}h3{font-size:1.05rem}
+a{color:var(--acc2)}
+.app{max-width:760px;margin:0 auto;padding:16px 14px calc(96px + var(--safe))}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-weight:800;color:#111}
+.sub{color:var(--mut);font-size:.85rem}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:99px;background:var(--card2);color:var(--mut);font-size:.78rem;white-space:nowrap}
+.pill.acc{background:rgba(255,107,53,.15);color:var(--acc2)}
+.pill.ok{background:rgba(62,207,142,.15);color:var(--ok)}
+.pill.warn{background:rgba(255,204,77,.15);color:var(--warn)}
+.pill.blue{background:rgba(90,169,255,.15);color:var(--blue)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.card.hi{background:linear-gradient(160deg,#2a1d17,#1d212a 60%);border-color:#4a2e22}
+.row{display:flex;gap:10px;align-items:center}
+.row.wrap{flex-wrap:wrap}.between{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:480px){.grid4{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--card2);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:1.35rem}
+.stat span{color:var(--mut);font-size:.75rem}
+.btn{border:0;border-radius:12px;padding:11px 16px;background:var(--card2);cursor:pointer;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:linear-gradient(135deg,var(--acc),#ff8a4c);color:#151515}
+.btn.ok{background:var(--ok);color:#0d1f17}
+.btn.ghost{background:transparent;border:1px solid var(--line)}
+.btn.sm{padding:6px 10px;font-size:.82rem;border-radius:10px}
+.btn.block{width:100%}
+.btn.danger{background:rgba(255,93,108,.15);color:var(--bad)}
+input,select,textarea{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);border-color:transparent}
+label{font-size:.8rem;color:var(--mut);display:block;margin-bottom:4px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:8px 14px;border-radius:99px;background:var(--card);border:1px solid var(--line);white-space:nowrap;cursor:pointer;font-size:.88rem}
+.tab.on{background:var(--acc);color:#151515;border-color:var(--acc);font-weight:700}
+nav.bottom{position:fixed;left:0;right:0;bottom:0;background:rgba(15,17,21,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 6px calc(6px + var(--safe));z-index:40}
+nav.bottom .in{display:flex;max-width:760px;width:100%;justify-content:space-around}
+nav.bottom button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.7rem;color:var(--dim);padding:6px 8px;cursor:pointer;flex:1}
+nav.bottom button svg{width:24px;height:24px}
+nav.bottom button.on{color:var(--acc)}
+.view{display:none}.view.on{display:block;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+.exlist .ex{display:flex;gap:12px;align-items:center;padding:10px;border-radius:12px;background:var(--card2);margin-bottom:8px;cursor:pointer}
+.fig{background:radial-gradient(circle at 50% 40%,#2a3040,#1a1e27);border-radius:12px;flex:none}
+.fig svg{display:block;width:100%;height:100%}
+.ex .fig{width:64px;height:64px}
+.ex .meta{flex:1;min-width:0}
+.ex .meta b{display:block}
+.muted{color:var(--mut)}.small{font-size:.82rem}.tiny{font-size:.72rem}
+.sets{width:100%;border-collapse:collapse;margin-top:8px}
+.sets th{font-size:.72rem;color:var(--dim);font-weight:500;text-align:center;padding:4px}
+.sets td{padding:3px;text-align:center}
+.sets input{text-align:center;padding:8px 4px}
+.sets tr.done td{opacity:.65}
+.chk{width:40px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);cursor:pointer;display:grid;place-items:center}
+.chk.on{background:var(--ok);border-color:var(--ok);color:#0d1f17}
+.sug{background:rgba(90,169,255,.1);border:1px dashed rgba(90,169,255,.4);border-radius:10px;padding:8px 10px;font-size:.84rem;margin-top:8px}
+.progress{height:8px;background:var(--bg2);border-radius:99px;overflow:hidden}
+.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:99px;transition:width .4s}
+.timerbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(74px + var(--safe));background:#232937;border:1px solid var(--line);border-radius:16px;padding:10px 14px;display:none;align-items:center;gap:12px;z-index:45;box-shadow:0 10px 30px rgba(0,0,0,.5);width:min(92vw,480px)}
+.timerbar.on{display:flex}
+.timerbar .t{font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums;min-width:74px}
+.timerbar .bar{flex:1;height:6px;background:var(--bg2);border-radius:99px;overflow:hidden}
+.timerbar .bar i{display:block;height:100%;background:var(--ok)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:60;display:none;align-items:flex-end;justify-content:center}
+.modal.on{display:flex}
+.sheet{background:var(--bg2);width:100%;max-width:760px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 16px calc(24px + var(--safe));animation:up .25s}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet .close{float:right}
+.bigfig{width:100%;max-width:340px;aspect-ratio:1;margin:0 auto 10px}
+ol.steps{padding-left:20px;margin:6px 0}
+ol.steps li{margin-bottom:5px}
+ul.clean{list-style:none;padding:0;margin:6px 0}
+ul.clean li{padding:4px 0 4px 22px;position:relative}
+ul.clean li:before{content:"";position:absolute;left:4px;top:11px;width:8px;height:8px;border-radius:50%;background:var(--ok)}
+ul.clean.bad li:before{background:var(--bad)}
+ul.clean.tip li:before{background:var(--acc2)}
+.hr{height:1px;background:var(--line);margin:12px 0}
+.check{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;background:var(--card2);margin-bottom:6px;cursor:pointer}
+.check .box{width:22px;height:22px;border-radius:7px;border:2px solid var(--dim);flex:none;display:grid;place-items:center}
+.check.on .box{background:var(--ok);border-color:var(--ok)}
+.check.on .lbl{text-decoration:line-through;color:var(--mut)}
+canvas{width:100%;display:block}
+.heat{display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px}
+.heat i{width:100%;aspect-ratio:1;border-radius:3px;background:var(--card2)}
+.heat i.l1{background:#7a3a20}.heat i.l2{background:var(--acc)}.heat i.today{outline:1.5px solid var(--txt)}
+.phase{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin:8px 0}
+.phase i{height:26px;border-radius:5px;display:grid;place-items:center;font-size:.7rem;font-style:normal;color:#111;font-weight:700}
+.phase i.cur{outline:2px solid #fff;outline-offset:1px}
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-120px);background:#262c39;border:1px solid var(--line);padding:10px 16px;border-radius:12px;z-index:80;transition:transform .3s;max-width:90vw;text-align:center}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.daybtn{flex:1;padding:12px 6px;border-radius:14px;background:var(--card2);border:2px solid transparent;cursor:pointer;text-align:center}
+.daybtn.on{border-color:var(--acc);background:rgba(255,107,53,.12)}
+.daybtn b{display:block;font-size:1.3rem}
+.feel{display:flex;gap:6px}
+.feel button{flex:1;font-size:1.5rem;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--card2);cursor:pointer}
+.feel button.on{border-color:var(--acc);background:rgba(255,107,53,.15)}
+.table{width:100%;border-collapse:collapse;font-size:.86rem}
+.table td,.table th{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.table th{color:var(--mut);font-weight:500;font-size:.76rem}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.75rem;color:var(--mut)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.emptyst{text-align:center;padding:24px 10px;color:var(--mut)}
+.bodymap{width:100%;max-width:230px;display:block;margin:0 auto}
+.kbd{font-variant-numeric:tabular-nums}
+.q{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1px solid var(--dim);background:transparent;color:var(--mut);font-size:.7rem;font-weight:700;cursor:pointer;padding:0;vertical-align:1px;margin-left:3px}
+.wkstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:10px}
+.wkstrip div{background:var(--card2);border-radius:10px;padding:6px 2px;text-align:center;font-size:.7rem;color:var(--mut);border:1.5px solid transparent}
+.wkstrip div b{display:block;font-size:1rem;color:var(--txt);margin-top:2px}
+.wkstrip div.today{border-color:var(--txt)}
+.wkstrip div.done{background:rgba(62,207,142,.16)}
+.wkstrip div.rest{opacity:.7}
+.wkstrip div.plan b{opacity:.5}
+.rest-ok{border-left:4px solid var(--ok)}.rest-rest{border-left:4px solid var(--blue)}.rest-warn{border-left:4px solid var(--warn)}.rest-done{border-left:4px solid var(--acc)}
+@media print{
+  nav.bottom,.timerbar,.noprint,header.top .btn{display:none!important}
+  body{background:#fff;color:#000}
+  .card{border:1px solid #bbb;background:#fff;break-inside:avoid}
+  .view{display:none!important}.view.printme{display:block!important}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <div class="logo">K</div>
+      <div>
+        <h1 id="hello" style="font-size:1.15rem;margin:0">Hola, Marcos</h1>
+        <div class="sub" id="phaseLine">Gimnasio Kata · Salamanca</div>
+      </div>
+    </div>
+    <span class="pill acc" id="weekPill">Semana 1</span>
+  </header>
+
+  <!-- HOY -->
+  <section class="view on" id="v-hoy"></section>
+  <!-- PLAN -->
+  <section class="view" id="v-plan"></section>
+  <!-- EJERCICIOS -->
+  <section class="view" id="v-ej"></section>
+  <!-- PROGRESO -->
+  <section class="view" id="v-prog"></section>
+  <!-- MAS -->
+  <section class="view" id="v-mas"></section>
+</div>
+
+<div class="timerbar" id="timerbar">
+  <div>
+    <div class="tiny muted">Descanso</div>
+    <div class="t" id="tbT">1:30</div>
+  </div>
+  <div class="bar"><i id="tbBar" style="width:100%"></i></div>
+  <button class="btn sm" onclick="Timer.add(15)">+15s</button>
+  <button class="btn sm ghost" onclick="Timer.stop()">Saltar</button>
+</div>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+
+<nav class="bottom">
+  <div class="in">
+    <button data-v="hoy" class="on" onclick="go('hoy')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 6.5h11M6.5 17.5h11M3 9v6M21 9v6M6 5v14M18 5v14"/></svg>Hoy</button>
+    <button data-v="plan" onclick="go('plan')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Plan</button>
+    <button data-v="ej" onclick="go('ej')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4.5" r="2"/><path d="M12 7v7M7 10l5-2 5 2M9 21l3-7 3 7"/></svg>Ejercicios</button>
+    <button data-v="prog" onclick="go('prog')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20h18M5 16l4-5 4 3 6-8"/></svg>Progreso</button>
+    <button data-v="mas" onclick="go('mas')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>Más</button>
+  </div>
+</nav>
+
+<script>
+/* =========================================================
+   DATOS: GIMNASIO KATA (fuente: gimnasiokata.com, nov-2026)
+   ========================================================= */
+const GYM = {
+  name:'Gimnasio Kata', addr:'Paseo de Carmelitas 79-81, Salamanca', tel:'923 266 388',
+  hours:'L-V 6:30–23:00 · S-D 9:00–21:00', monitors:'Monitores en sala de 6:30 a 23:00 (laborables)',
+  zones:[
+    {z:'Cardio Matrix',items:'Cintas de correr, bicicletas estáticas, elípticas y remos',st:'ok'},
+    {z:'Peso libre',items:'Mancuernas de 1 a 40 kg, barras olímpicas, discos y racks de sentadillas',st:'ok'},
+    {z:'Fuerza guiada Matrix',items:'Máquinas de pecho, espalda, hombros, piernas y brazos',st:'ok'},
+    {z:'Cables / poleas',items:'Se mencionan "cables". Modelo y número sin detallar',st:'check'},
+    {z:'Bancos, prensa, curl femoral, extensión cuádriceps',items:'Habituales en una sala Matrix de piernas, pero la web no los lista uno a uno',st:'check'},
+    {z:'Zona funcional',items:'TRX, battle ropes, kettlebells, cajas de pliometría',st:'ok'},
+    {z:'Estiramientos',items:'Colchonetas, foam rollers, bandas elásticas',st:'ok'},
+  ]
+};
+
+/* =========================================================
+   POSES (vista lateral, mirando a la derecha). Suelo y=180
+   Puntos: h cabeza · n cuello/hombro · e codo · w mano · p cadera · k rodilla · a tobillo
+   Opcionales: e2/w2 segundo brazo · k2/a2 segunda pierna · s/s2 hombros (vista frontal)
+   ========================================================= */
+function P(str){const o={};str.trim().split(/\s+/).forEach(t=>{const m=t.match(/^(e2|w2|k2|a2|s2|h|n|e|w|p|k|a|s)(-?[\d.]+),(-?[\d.]+)$/);if(m)o[m[1]]=[+m[2],+m[3]];});return o;}
+const STAND='h100,28 n100,46 e100,72 w102,96 p100,104 k101,141 a100,178';
+function pose(a,b){const A=P(a),B=Object.assign({},A,P(b));return{a:A,b:B};}
+
+/* =========================================================
+   BIBLIOTECA DE EJERCICIOS
+   st: ok = equipamiento confirmado en la web del Kata · check = habitual, confirmar en sala
+   unit: kg (total) | kgdb (kg por mancuerna) | reps (peso corporal) | s (segundos)
+   ========================================================= */
+const EX = {
+ goblet:{n:'Sentadilla goblet',eq:'Mancuerna',zone:'Peso libre',st:'ok',unit:'kgdb',inc:2,
+   m1:['cuadriceps','gluteos'],m2:['abdomen','lumbares'],
+   steps:['Coge una mancuerna en vertical y sujétala pegada al pecho, con los codos hacia abajo.','Pies a la anchura de los hombros, puntas un poco hacia fuera.','Baja como si te sentaras en una silla. Rodillas en la dirección de los pies.','Llega hasta que el muslo quede paralelo al suelo o un poco más abajo, con la espalda recta.','Sube empujando el suelo con todo el pie y soltando el aire.'],
+   cues:['Pecho orgulloso, mirada al frente','Los codos rozan el interior de las rodillas abajo','Peso repartido: talón y planta'],
+   errs:['Talones que se levantan','Rodillas que se cierran hacia dentro','Espalda redondeada abajo'],
+   next:'sq_bar',nextTxt:'Cuando hagas 3×12 con 24-28 kg y técnica perfecta, pide a un monitor que te enseñe la sentadilla con barra en el rack.',
+   alt:['leg_press','lunge'],pose:pose('h100,28 n100,46 e110,66 w106,54 p100,104 k102,141 a100,178','h103,66 n100,84 e112,104 w108,92 p84,138 k114,137 a102,178'),props:[{t:'db',at:'w'}]},
+ sq_bar:{n:'Sentadilla con barra (rack)',eq:'Barra olímpica + rack',zone:'Peso libre',st:'ok',unit:'kg',inc:2.5,
+   m1:['cuadriceps','gluteos'],m2:['lumbares','abdomen','femorales'],
+   steps:['Pon la barra en el rack a la altura de la mitad del pecho y los seguros justo por debajo de tu sentadilla.','Mete los hombros bajo la barra y apóyala sobre los trapecios, no sobre el cuello.','Sácala con dos pasos atrás y coloca los pies a la anchura de los hombros.','Coge aire, aprieta el abdomen y baja controlando hasta el paralelo.','Sube manteniendo el pecho alto.'],
+   cues:['Aire dentro y abdomen duro en cada repetición','Los seguros del rack siempre puestos','Empieza con la barra sola (20 kg)'],
+   errs:['Rebotar abajo','La cadera sube antes que el pecho','Sin seguros o sin compañero'],
+   alt:['goblet','leg_press'],pose:pose('h100,28 n100,46 e88,58 w95,46 p100,104 k102,141 a100,178','h108,68 n104,86 e92,98 w99,86 p82,136 k114,136 a102,178'),props:[{t:'rack'},{t:'bar',at:'w'}]},
+ db_bench:{n:'Press de banca con mancuernas',eq:'Banco plano + mancuernas',zone:'Peso libre',st:'check',unit:'kgdb',inc:2,
+   m1:['pecho'],m2:['triceps','hombros'],
+   steps:['Siéntate con las mancuernas sobre los muslos y túmbate llevándolas al pecho.','Pies firmes en el suelo, omóplatos juntos y hacia abajo.','Empuja hacia arriba hasta casi estirar los brazos, con las mancuernas casi tocándose.','Baja despacio (2-3 s) hasta que los codos queden un poco por debajo del banco.','Los codos van a unos 45° del cuerpo, no en cruz.'],
+   cues:['Omóplatos "metidos en los bolsillos de atrás"','Muñecas rectas, encima de los codos','Suelta el aire al subir'],
+   errs:['Codos abiertos a 90°','Arquear muchísimo la espalda o levantar el culo','Dejar caer el peso'],
+   alt:['chest_m','pushup'],pose:pose('h42,128 n58,134 e62,108 w62,84 p115,134 k145,124 a150,178','e74,150 w64,124'),props:[{t:'bench'},{t:'db',at:'w'}]},
+ lat_pd:{n:'Jalón al pecho',eq:'Máquina de espalda / polea alta',zone:'Fuerza guiada',st:'check',unit:'kg',inc:5,
+   m1:['dorsales'],m2:['biceps','trapecio'],
+   steps:['Ajusta el rodillo para que te sujete bien los muslos.','Coge la barra un poco más ancha que los hombros.','Inclínate un pelín hacia atrás, pecho hacia el techo.','Tira de la barra hacia la parte alta del pecho llevando los codos hacia abajo y atrás.','Sube controlando hasta estirar los brazos del todo.'],
+   cues:['Piensa en "meter los codos en los bolsillos"','Hombros lejos de las orejas','Pausa de 1 s abajo'],
+   errs:['Tirar con impulso balanceándote','Bajar la barra por detrás de la nuca','Encoger los hombros'],
+   alt:['trx_row','db_row'],pose:pose('h98,62 n98,80 e104,55 w108,32 p96,130 k130,128 a132,176','e90,104 w104,88'),props:[{t:'seat'},{t:'cable',from:[108,-14],at:'w'},{t:'hbar',at:'w'}]},
+ rdl:{n:'Peso muerto rumano con mancuernas',eq:'Mancuernas',zone:'Peso libre',st:'ok',unit:'kgdb',inc:2,
+   m1:['femorales','gluteos'],m2:['lumbares','trapecio'],
+   steps:['De pie, una mancuerna en cada mano delante de los muslos y rodillas ligeramente flexionadas.','Echa la cadera hacia atrás, como si quisieras cerrar una puerta con el culo.','Las mancuernas bajan pegadas a las piernas y la espalda se mantiene recta.','Para cuando notes tensión fuerte detrás de los muslos, normalmente a media tibia.','Sube empujando la cadera hacia delante y aprieta glúteos arriba.'],
+   cues:['Es una bisagra de cadera, no una sentadilla','Espalda neutra siempre','Las rodillas casi no se mueven'],
+   errs:['Redondear la espalda para llegar más abajo','Flexionar mucho las rodillas','Mancuernas lejos del cuerpo'],
+   alt:['leg_curl','hip_thrust'],pose:pose('h100,28 n100,46 e101,72 w102,96 p100,104 k103,141 a100,178','h152,74 n138,84 e138,110 w138,134 p86,106 k96,141 a100,178'),props:[{t:'db',at:'w'}]},
+ sh_press_m:{n:'Press de hombro en máquina',eq:'Máquina de hombros',zone:'Fuerza guiada',st:'ok',unit:'kg',inc:2.5,
+   m1:['hombros'],m2:['triceps','trapecio'],
+   steps:['Ajusta el asiento para que las asas queden a la altura de los hombros.','Espalda pegada al respaldo y abdomen firme.','Empuja hacia arriba sin bloquear del todo los codos.','Baja controlando hasta la altura de la barbilla.'],
+   cues:['Costillas abajo, sin arquear la espalda','2 s para bajar','Suelta el aire al empujar'],
+   errs:['Despegar la espalda del respaldo','Bajar demasiado rápido'],
+   alt:['lat_raise'],pose:pose('h80,60 n80,78 e92,98 w92,74 p78,128 k112,128 a114,176','e88,54 w88,28'),props:[{t:'seat'},{t:'back'},{t:'handle',at:'w'}]},
+ plank:{n:'Plancha frontal',eq:'Colchoneta',zone:'Estiramientos',st:'ok',unit:'s',inc:5,
+   m1:['abdomen'],m2:['hombros','gluteos'],
+   steps:['Apoya los antebrazos con los codos debajo de los hombros.','Estira las piernas y apóyate en las puntas de los pies.','Aprieta glúteos y abdomen. Del cuello a los talones, una línea recta.','Mantén la posición respirando normal.'],
+   cues:['Mete un poco la pelvis, como si quisieras meter la tripa hacia el ombligo','Mirada al suelo','Es mejor menos tiempo bien hecho que más tiempo mal hecho'],
+   errs:['Cadera hundida (duele la zona lumbar)','Culo muy alto','Aguantar la respiración'],
+   alt:['dead_bug','side_plank'],pose:pose('h150,130 n135,140 e132,170 w152,172 p85,146 k58,156 a30,168','p85,143 k58,155'),props:[{t:'mat'}]},
+ leg_press:{n:'Prensa de piernas',eq:'Máquina prensa',zone:'Fuerza guiada',st:'check',unit:'kg',inc:5,
+   m1:['cuadriceps','gluteos'],m2:['femorales'],
+   steps:['Siéntate con la espalda y la cadera bien apoyadas en el respaldo.','Pies en el centro de la plataforma a la anchura de la cadera.','Quita los seguros y baja hasta que las rodillas formen unos 90°.','Empuja con todo el pie sin llegar a bloquear las rodillas.','Pon los seguros al terminar.'],
+   cues:['La zona lumbar nunca se despega del respaldo','Rodillas alineadas con los pies','Controla la bajada'],
+   errs:['Bajar tanto que la cadera se levanta del asiento','Bloquear las rodillas arriba','Empujar solo con las puntas'],
+   alt:['goblet','lunge'],pose:pose('h40,100 n52,112 e70,140 w86,150 p90,146 k104,112 a140,104','k124,120 a158,94'),props:[{t:'pressSeat'},{t:'plate',at:'a'}]},
+ row_m:{n:'Remo sentado (máquina o polea)',eq:'Máquina de espalda / polea baja',zone:'Fuerza guiada',st:'check',unit:'kg',inc:5,
+   m1:['dorsales','trapecio'],m2:['biceps','hombros'],
+   steps:['Siéntate con el pecho apoyado o el tronco recto, según la máquina.','Coge las asas con los brazos estirados.','Tira llevando los codos hacia atrás y juntando los omóplatos.','Aguanta 1 s y vuelve despacio estirando los brazos.'],
+   cues:['Pecho alto durante todo el movimiento','Primero se mueven los omóplatos y después los brazos','Nada de balancear el tronco'],
+   errs:['Tirar echándote hacia atrás','Encoger los hombros hacia las orejas'],
+   alt:['db_row','trx_row'],pose:pose('h92,64 n92,82 e116,96 w140,100 p88,130 k120,126 a132,174','e74,104 w98,104'),props:[{t:'seat'},{t:'cable',from:[190,100],at:'w'},{t:'handle',at:'w'}]},
+ incline_db:{n:'Press inclinado con mancuernas',eq:'Banco inclinable + mancuernas',zone:'Peso libre',st:'check',unit:'kgdb',inc:2,
+   m1:['pecho','hombros'],m2:['triceps'],
+   steps:['Pon el banco a 30°. Más inclinado trabaja casi solo el hombro.','Apoya la espalda con las mancuernas a la altura del pecho alto.','Empuja hacia arriba y un poco hacia dentro.','Baja en 2-3 segundos.'],
+   cues:['Omóplatos juntos y abajo','Codos a 45°','Pies firmes en el suelo'],
+   errs:['Banco demasiado vertical','Chocar las mancuernas arriba con impulso'],
+   alt:['db_bench','chest_m'],pose:pose('h60,80 n70,96 e78,72 w82,48 p110,140 k138,132 a140,178','e62,116 w74,92'),props:[{t:'incline'},{t:'db',at:'w'}]},
+ leg_curl:{n:'Curl femoral en máquina',eq:'Máquina de piernas (femoral)',zone:'Fuerza guiada',st:'check',unit:'kg',inc:2.5,
+   m1:['femorales'],m2:['gemelos'],
+   steps:['Túmbate boca abajo (o siéntate, según la máquina) con el rodillo justo encima de los talones.','La rodilla tiene que quedar alineada con el eje de la máquina.','Flexiona las piernas llevando los talones hacia el culo.','Aprieta 1 s arriba y baja despacio.'],
+   cues:['La cadera pegada al banco','Movimiento lento y controlado','Baja en 3 s'],
+   errs:['Levantar la cadera para ayudarte','Dar tirones'],
+   alt:['rdl'],pose:pose('h30,112 n48,118 e50,136 w64,134 p105,120 k140,120 a175,120','a152,88'),props:[{t:'flatPad'},{t:'roller',at:'a'}]},
+ lat_raise:{n:'Elevaciones laterales',eq:'Mancuernas',zone:'Peso libre',st:'ok',unit:'kgdb',inc:1,reps:[12,15],front:true,
+   m1:['hombros'],m2:['trapecio'],
+   steps:['De pie, una mancuerna ligera en cada mano a los lados.','Codos ligeramente flexionados y fijos.','Sube los brazos hacia los lados hasta la altura de los hombros.','Baja despacio en 2-3 s.'],
+   cues:['Imagina que empujas las paredes hacia fuera','Los meñiques un poco más altos que los pulgares','Peso ligero: aquí manda la técnica'],
+   errs:['Balancearte con el cuerpo','Subir por encima de los hombros encogiéndolos'],
+   alt:['sh_press_m'],pose:pose('h100,22 n100,40 s88,44 s2112,44 e84,68 w82,92 e2116,68 w2118,92 p100,100 k93,140 a91,178 k2107,140 a2109,178','e70,44 w48,42 e2130,44 w2152,42'),props:[{t:'db',at:'w'},{t:'db',at:'w2'}]},
+ curl:{n:'Curl de bíceps con mancuernas',eq:'Mancuernas',zone:'Peso libre',st:'ok',unit:'kgdb',inc:1,reps:[10,15],
+   m1:['biceps'],m2:['antebrazo'],
+   steps:['De pie, mancuernas a los lados con las palmas hacia delante.','Codos pegados al cuerpo.','Flexiona los codos subiendo las mancuernas hacia los hombros.','Baja despacio hasta estirar casi del todo.'],
+   cues:['Los codos no se mueven','Nada de balanceo','Aprieta arriba 1 s'],
+   errs:['Echar el cuerpo hacia atrás','Bajar sin control'],
+   alt:[],pose:pose(STAND,'w120,56'),props:[{t:'db',at:'w'}]},
+ dead_bug:{n:'Dead bug (bicho muerto)',eq:'Colchoneta',zone:'Estiramientos',st:'ok',unit:'reps',inc:2,reps:[8,12],
+   m1:['abdomen'],m2:['oblicuos'],
+   steps:['Boca arriba, brazos estirados hacia el techo y rodillas a 90° encima de la cadera.','Pega la zona lumbar al suelo.','Estira a la vez un brazo hacia atrás y la pierna contraria hacia delante, sin tocar el suelo.','Vuelve y cambia de lado. Cada lado cuenta como 1 repetición.'],
+   cues:['La espalda baja no se despega del suelo','Suelta el aire al estirar','Lento'],
+   errs:['Arquear la zona lumbar','Ir rápido'],
+   alt:['plank'],pose:pose('h30,160 n46,164 e48,140 w50,116 e248,140 w250,116 p100,166 k100,132 a126,130 k2100,132 a2126,130','e28,152 w8,156 k134,162 a168,162'),props:[{t:'mat'}]},
+ hip_thrust:{n:'Hip thrust con barra',eq:'Barra + banco (o máquina de glúteo)',zone:'Peso libre',st:'check',unit:'kg',inc:5,
+   m1:['gluteos'],m2:['femorales','cuadriceps'],
+   steps:['Apoya la parte alta de la espalda en el lateral de un banco.','Coloca la barra sobre la cadera con un protector o una colchoneta doblada.','Pies apoyados y rodillas a 90° cuando estás arriba.','Sube la cadera apretando glúteos hasta que el tronco quede alineado con los muslos.','Aguanta 1 s y baja.'],
+   cues:['Barbilla metida, mirada al frente','Empuja con los talones','No arquees la lumbar arriba: el movimiento sale del glúteo'],
+   errs:['Hiperextender la espalda','Pies demasiado lejos o demasiado cerca'],
+   alt:['rdl'],pose:pose('h40,122 n56,132 e72,150 w86,162 p85,168 k118,140 a124,178','e74,128 w92,130 p92,134 k124,132'),props:[{t:'benchSide'},{t:'bar',at:'w'}]},
+ chest_m:{n:'Press de pecho en máquina',eq:'Máquina de pecho Matrix',zone:'Fuerza guiada',st:'ok',unit:'kg',inc:2.5,
+   m1:['pecho'],m2:['triceps','hombros'],
+   steps:['Ajusta el asiento para que las asas queden a la altura de la mitad del pecho.','Espalda pegada al respaldo y omóplatos juntos.','Empuja hasta casi estirar los brazos.','Vuelve despacio hasta notar estiramiento en el pecho.'],
+   cues:['Omóplatos atrás todo el rato','2-3 s de vuelta','Sin bloquear los codos'],
+   errs:['Despegar los hombros del respaldo','Volver de golpe'],
+   alt:['db_bench','pushup'],pose:pose('h70,58 n72,76 e76,98 w96,88 p72,128 k106,128 a108,176','e108,86 w134,86'),props:[{t:'seat'},{t:'back'},{t:'handle',at:'w'}]},
+ trx_row:{n:'Remo invertido en TRX',eq:'TRX',zone:'Zona funcional',st:'ok',unit:'reps',inc:1,reps:[8,15],
+   m1:['dorsales','trapecio'],m2:['biceps','abdomen'],
+   steps:['Coge las asas del TRX con las palmas enfrentadas.','Camina hacia delante para inclinarte hacia atrás con el cuerpo recto como una tabla.','Tira del pecho hacia las asas juntando los omóplatos.','Baja controlando.'],
+   cues:['Cuanto más horizontal estés, más difícil','Glúteos y abdomen apretados','Codos pegados'],
+   errs:['Cadera que cae','Tirar solo con los brazos'],
+   progTxt:'Para progresar: pies más adelantados (más horizontal) o pausa de 2 s arriba.',
+   alt:['row_m','db_row'],pose:pose('h72,48 n80,64 e102,51 w125,37 p108,114 k124,146 a140,178','h98,40 n104,56 e96,76 w118,62 p120,110 k130,144'),props:[{t:'cable',from:[170,-14],at:'w',trx:1}]},
+ split_sq:{n:'Sentadilla búlgara',eq:'Banco + mancuernas',zone:'Peso libre',st:'check',unit:'kgdb',inc:2,reps:[8,12],
+   m1:['cuadriceps','gluteos'],m2:['femorales','abdomen'],
+   steps:['De espaldas a un banco, apoya el empeine de un pie encima.','Adelanta el otro pie lo suficiente para que, al bajar, la rodilla quede por encima del tobillo.','Baja recto hasta que la rodilla de atrás casi toque el suelo.','Sube empujando con el talón de delante. Haz todas las repeticiones con una pierna y luego cambia.'],
+   cues:['Las repeticiones son por pierna','Empieza sin peso y añade mancuernas cuando tengas equilibrio','Tronco un poco inclinado = más glúteo'],
+   errs:['Pie de delante demasiado cerca','Rodilla que se va hacia dentro'],
+   alt:['lunge'],pose:pose('h98,28 n98,46 e98,72 w99,96 p96,104 k108,140 a110,178 k280,140 a252,128','h96,57 n96,75 e96,101 w97,124 p92,132 k124,136 a118,178 k280,166 a252,128'),props:[{t:'benchLow'},{t:'db',at:'w'}]},
+ face_pull:{n:'Face pull (banda o polea)',eq:'Banda elástica / polea',zone:'Estiramientos',st:'ok',unit:'reps',inc:1,reps:[12,15],
+   m1:['hombros','trapecio'],m2:['dorsales'],
+   steps:['Ata la banda a la altura de la cara, o usa la polea con cuerda.','Coge los extremos con los brazos estirados delante.','Tira hacia la cara separando las manos y llevando los codos altos y atrás.','Aguanta 1 s y vuelve despacio.'],
+   cues:['Termina como un "doble bíceps" de culturista','Ideal para la postura','Resistencia ligera'],
+   errs:['Codos bajos','Echarte hacia atrás'],
+   progTxt:'Para progresar: banda más dura o más peso en la polea, siempre con 1 s de pausa.',
+   alt:[],pose:pose('h100,28 n100,46 e124,50 w148,46 p100,104 k101,141 a100,178','e88,38 w106,26'),props:[{t:'cable',from:[195,40],at:'w',band:1}]},
+ tri_ext:{n:'Extensión de tríceps sobre la cabeza',eq:'Mancuerna (o polea)',zone:'Peso libre',st:'ok',unit:'kgdb',inc:1,reps:[10,15],
+   m1:['triceps'],m2:[],
+   steps:['Sentado o de pie, coge una mancuerna con las dos manos por encima de la cabeza.','Codos apuntando al techo y cerca de la cabeza.','Baja la mancuerna por detrás de la cabeza flexionando solo los codos.','Estira los brazos arriba sin mover los codos.'],
+   cues:['Abdomen apretado para no arquear la espalda','Solo se mueven los antebrazos'],
+   errs:['Abrir mucho los codos','Arquear la espalda'],
+   alt:[],pose:pose('h100,28 n100,46 e104,14 w86,28 p100,104 k101,141 a100,178','w106,-12'),props:[{t:'db',at:'w'}]},
+ kb_swing:{n:'Swing con kettlebell',eq:'Kettlebell',zone:'Zona funcional',st:'ok',unit:'kg',inc:4,reps:[15,20],
+   m1:['gluteos','femorales'],m2:['lumbares','hombros','abdomen'],
+   steps:['Pies algo más anchos que los hombros y la kettlebell delante.','Bisagra de cadera: cógela y llévala hacia atrás entre las piernas.','Lanza la cadera hacia delante con fuerza. La pesa sube por la inercia hasta la altura del pecho.','Deja que caiga y acompáñala con la cadera hacia atrás.'],
+   cues:['La fuerza sale del glúteo, no de los brazos','Arriba: cuerpo recto y glúteos apretados','Es una bisagra, no una sentadilla'],
+   errs:['Levantar la pesa con los hombros','Redondear la espalda abajo'],
+   alt:['rdl'],pose:pose('h142,70 n128,78 e122,104 w108,124 p84,104 k96,140 a100,178','h100,28 n100,46 e124,58 w150,56 p98,102 k100,140'),props:[{t:'kb',at:'w'}]},
+ side_plank:{n:'Plancha lateral',eq:'Colchoneta',zone:'Estiramientos',st:'ok',unit:'s',inc:5,
+   m1:['oblicuos'],m2:['abdomen','gluteos'],
+   steps:['Túmbate de lado apoyado en el antebrazo, con el codo debajo del hombro.','Piernas estiradas una encima de la otra.','Levanta la cadera hasta formar una línea recta.','Aguanta el tiempo marcado y cambia de lado. El tiempo es por lado.'],
+   cues:['Cadera alta y hacia delante','Versión fácil: rodillas apoyadas'],
+   errs:['Cadera que cae','Hombro hundido'],
+   alt:['plank'],pose:pose('h30,140 n44,150 e40,176 w62,178 p100,160 k135,167 a170,174','p100,152 k135,163'),props:[{t:'mat'}]},
+ db_row:{n:'Remo con mancuerna a una mano',eq:'Banco + mancuerna',zone:'Peso libre',st:'ok',unit:'kgdb',inc:2,
+   m1:['dorsales'],m2:['biceps','trapecio'],
+   steps:['Apoya una mano y la rodilla del mismo lado en el banco.','Espalda recta, casi paralela al suelo.','Tira de la mancuerna hacia la cadera llevando el codo hacia atrás.','Baja estirando el brazo del todo.'],
+   cues:['Piensa en llevar el codo al bolsillo','Sin girar el tronco'],
+   errs:['Tirar con impulso','Espalda redondeada'],
+   alt:['row_m','trx_row'],pose:pose('h140,88 n126,92 e126,116 w126,140 e2130,112 w2132,128 p70,100 k80,140 a78,178 k264,140 a256,178','e106,80 w110,104'),props:[{t:'benchRow'},{t:'db',at:'w'}]},
+ lunge:{n:'Zancadas con mancuernas',eq:'Mancuernas',zone:'Peso libre',st:'ok',unit:'kgdb',inc:2,reps:[8,12],
+   m1:['cuadriceps','gluteos'],m2:['femorales'],
+   steps:['De pie con una mancuerna en cada mano.','Da un paso largo hacia delante.','Baja hasta que la rodilla de atrás casi toque el suelo.','Empuja con el pie de delante para volver. Alterna las piernas.'],
+   cues:['Tronco recto','Rodilla de delante encima del tobillo'],
+   errs:['Paso demasiado corto','Rodilla que se va hacia dentro'],
+   alt:['split_sq','goblet'],pose:pose('h100,28 n100,46 e100,72 w101,96 p100,104 k110,141 a114,178 k292,141 a288,178','h96,57 n96,75 e96,101 w97,124 p94,132 k124,134 a124,178 k284,166 a258,176'),props:[{t:'db',at:'w'}]},
+ leg_ext:{n:'Extensión de cuádriceps',eq:'Máquina de piernas',zone:'Fuerza guiada',st:'check',unit:'kg',inc:2.5,reps:[12,15],
+   m1:['cuadriceps'],m2:[],
+   steps:['Ajusta el respaldo para que la rodilla quede alineada con el eje de la máquina.','Rodillo sobre el tobillo.','Estira las piernas por completo y aprieta 1 s.','Baja despacio.'],
+   cues:['Agárrate a las asas','Controla la bajada'],
+   errs:['Dar patadas','Peso demasiado alto'],
+   alt:['goblet'],pose:pose('h82,56 n82,74 e90,104 w100,124 p84,128 k120,128 a122,174','a162,116'),props:[{t:'seat'},{t:'back'},{t:'roller',at:'a'}]},
+ floor_press:{n:'Press de suelo con mancuernas',eq:'Mancuernas (en casa)',zone:'Casa',st:'ok',unit:'kgdb',inc:2,
+   m1:['pecho'],m2:['triceps','hombros'],
+   steps:['Túmbate boca arriba en el suelo con las rodillas flexionadas y una mancuerna en cada mano.','Codos apoyados en el suelo a unos 45° del cuerpo y mancuernas a la altura del pecho.','Empuja hacia arriba hasta casi estirar los brazos.','Baja despacio hasta que los codos toquen el suelo con suavidad. Pausa de 1 s y vuelve a subir.'],
+   cues:['Es el press de banca de casa: sin banco, el suelo limita el recorrido y protege el hombro','Omóplatos juntos','Sin rebotar los codos contra el suelo'],
+   errs:['Codos en cruz a 90°','Dejar caer los codos de golpe'],
+   alt:['pushup'],pose:pose('h42,168 n58,172 e62,148 w62,124 p115,172 k140,148 a158,178','e76,174 w66,152'),props:[{t:'mat'},{t:'db',at:'w'}]},
+ db_sh_press:{n:'Press de hombros con mancuernas',eq:'Mancuernas + silla',zone:'Casa',st:'ok',unit:'kgdb',inc:2,
+   m1:['hombros'],m2:['triceps','trapecio'],
+   steps:['Siéntate en una silla con respaldo, espalda apoyada y pies en el suelo.','Mancuernas a la altura de los hombros, palmas hacia delante.','Empuja hacia arriba hasta casi estirar los brazos.','Baja controlando hasta la altura de las orejas.'],
+   cues:['Abdomen apretado, sin arquear la espalda','2 s para bajar'],
+   errs:['Arquear la zona lumbar','Chocar las mancuernas arriba'],
+   alt:['lat_raise','pushup'],pose:pose('h80,60 n80,78 e92,98 w92,74 p78,128 k112,128 a114,176','e88,54 w88,28'),props:[{t:'seat'},{t:'back'},{t:'db',at:'w'}]},
+ pushup:{n:'Flexiones',eq:'Peso corporal',zone:'Estiramientos',st:'ok',unit:'reps',inc:1,reps:[8,20],
+   m1:['pecho','triceps'],m2:['hombros','abdomen'],
+   steps:['Manos algo más anchas que los hombros.','Cuerpo recto de la cabeza a los talones.','Baja el pecho hasta casi tocar el suelo con los codos a 45°.','Empuja hasta estirar los brazos.'],
+   cues:['Versión fácil: manos en un banco','Glúteos apretados'],
+   errs:['Cadera que cae','Codos en cruz'],
+   alt:['chest_m'],pose:pose('h152,96 n137,104 e137,135 w137,166 p86,124 k58,142 a30,164','h152,140 n137,148 e118,148 p86,152 k58,160 a30,166'),props:[]},
+};
+
+/* =========================================================
+   RUTINA 3 DÍAS × 90 MIN (Full-body A/B/C)
+   ========================================================= */
+const DAYS = {
+ A:{name:'Día A',dow:'Lunes',loc:'gym',color:'#ff6b35',focus:'Pierna (cuádriceps) · Pecho · Espalda vertical',
+    ex:[{id:'goblet',role:'main'},{id:'db_bench',role:'main'},{id:'lat_pd',role:'main'},{id:'rdl',role:'acc'},{id:'sh_press_m',role:'acc'},{id:'plank',role:'core'}],
+    cardio:{m:'Remo Matrix',min:12,txt:'Ritmo constante y cómodo (zona 2): puedes hablar con frases cortas. 22-24 paladas/min. Apunta los metros.'}},
+ B:{name:'Día B',dow:'Miércoles',loc:'gym',color:'#5aa9ff',focus:'Pierna (prensa) · Espalda horizontal · Pecho inclinado · Brazos',
+    ex:[{id:'leg_press',role:'main'},{id:'row_m',role:'main'},{id:'incline_db',role:'main'},{id:'leg_curl',role:'acc'},{id:'lat_raise',role:'acc'},{id:'curl',role:'acc'},{id:'dead_bug',role:'core'}],
+    cardio:{m:'Bici estática',min:14,txt:'Intervalos: 2 min suaves y luego 8 × (30 s fuerte + 60 s suave). Fuerte = 8/10 de esfuerzo.'}},
+ C:{name:'Día C',dow:'Finde · Kata',loc:'gym',color:'#3ecf8e',focus:'Glúteo · Pecho máquina · Espalda TRX · Unilateral · Postura',
+    ex:[{id:'hip_thrust',role:'main'},{id:'chest_m',role:'main'},{id:'trx_row',role:'main'},{id:'split_sq',role:'acc'},{id:'face_pull',role:'acc'},{id:'tri_ext',role:'acc'},{id:'side_plank',role:'core'}],
+    cardio:{m:'Kettlebell + cinta',min:12,txt:'Finisher: 5 rondas de 15 swings con kettlebell y 1 min caminando en la cinta inclinada (8-10 %). Termina con 3 min suaves.'}},
+ H:{name:'Día Casa',dow:'Finde · Madrid',loc:'casa',color:'#b38cff',focus:'Cuerpo completo con mancuernas · Sustituye al Día C cuando estás en Madrid',
+    ex:[{id:'goblet',role:'main'},{id:'floor_press',role:'main'},{id:'db_row',role:'main'},{id:'rdl',role:'acc'},{id:'db_sh_press',role:'acc'},{id:'split_sq',role:'acc'},{id:'curl',role:'acc'},{id:'plank',role:'core'}],
+    cardio:{m:'Circuito en casa',min:12,txt:'4 rondas: 30 s de jumping jacks, 10 sentadillas con salto, 20 s de mountain climbers y 1 min de descanso. Si hace buen tiempo, cámbialo por 20 min de paseo rápido o bici.'}},
+};
+const WARMUP = ['5 min de bici o elíptica suave','10 círculos de brazos hacia delante y 10 hacia atrás','8 gato-camello en cuadrupedia','10 sentadillas sin peso con 2 s de pausa abajo','10 puentes de glúteo en el suelo','8 rotaciones torácicas por lado','1-2 series de aproximación del primer ejercicio, con un 50 % del peso'];
+const WARMUP_HOME = ['5 min de movimiento: skipping suave, subir escaleras o jumping jacks','10 círculos de brazos hacia delante y 10 hacia atrás','8 gato-camello en cuadrupedia','10 sentadillas sin peso con 2 s de pausa abajo','10 puentes de glúteo en el suelo','8 rotaciones torácicas por lado','1 serie de aproximación del primer ejercicio, con un 50 % del peso'];
+const warmFor=d=>DAYS[d].loc==='casa'?WARMUP_HOME:WARMUP;
+const COOLDOWN = ['Cuádriceps de pie: 30 s por pierna','Isquios sentado: 30 s por pierna','Glúteo en "figura 4": 30 s por lado','Pecho en la pared: 30 s por lado','Dorsal colgado o en la pared: 30 s','Foam roller en piernas y espalda alta: 2 min'];
+
+/* Fases del ciclo de 12 semanas */
+function phaseOf(week){
+  const w=((week-1)%12)+1, cycle=Math.floor((week-1)/12)+1;
+  let p;
+  if(w<=4) p={k:'ad',name:'Adaptación',color:'#5aa9ff',main:{sets:w<=2?2:3,reps:[10,12]},acc:{sets:2,reps:null},core:{sets:2,reps:[20,40]},rpe:'6-7',rest:90,
+    txt:'Aprende la técnica. Termina cada serie con 3-4 repeticiones en reserva. Aquí no importa el peso, importa hacerlo bien.'};
+  else if(w<=8) p={k:'hy',name:'Hipertrofia',color:'#ff6b35',main:{sets:3,reps:[8,12]},acc:{sets:3,reps:null},core:{sets:3,reps:[30,50]},rpe:'7-8',rest:90,
+    txt:'Construye músculo. Sube peso cuando llegues arriba del rango en todas las series. Deja 2-3 repeticiones en reserva.'};
+  else if(w<=11) p={k:'fu',name:'Fuerza base',color:'#ffb347',main:{sets:4,reps:[6,8]},acc:{sets:3,reps:null},core:{sets:3,reps:[40,60]},rpe:'7-8',rest:120,
+    txt:'Más peso y menos repeticiones en los ejercicios principales. Descanso de 2 min. La técnica sigue mandando.'};
+  else p={k:'de',name:'Descarga',color:'#3ecf8e',main:{sets:2,reps:[8,10]},acc:{sets:2,reps:null},core:{sets:2,reps:[20,40]},rpe:'5-6',rest:90,
+    txt:'Semana suave: un 20 % menos de peso y menos series. El cuerpo se recupera y vuelves más fuerte al siguiente ciclo.'};
+  p.w=w;p.cycle=cycle;return p;
+}
+function prescription(item,ph){
+  const ex=EX[item.id], r=ph[item.role]||ph.acc;
+  let reps=r.reps||ex.reps||[10,15];
+  if(item.role==='main'&&ex.reps&&ex.unit==='reps') reps=ex.reps;
+  if(ex.unit==='s') reps=ph.core.reps.map(x=>x+(ph.cycle-1)*10);
+  return {sets:r.sets,reps,rest:item.role==='main'?ph.rest:Math.min(ph.rest,90)};
+}
+
+/* =========================================================
+   ESTADO (localStorage)
+   ========================================================= */
+const KEY='kataMarcos_v1';
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+function ymdOf(x){return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');}
+function mondayOf(ds){const d=new Date(ds+'T00:00');d.setDate(d.getDate()-((d.getDay()+6)%7));return d;}
+const WEBHOOK='https://n8n.srv1035317.hstgr.cloud/webhook/kata-marcos-sesion';
+let S=load();
+function load(){
+  try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.v)return s;}catch(e){}
+  return {v:1,profile:{name:'Marcos',start:ymdOf(mondayOf(today())),sound:true,vibrate:true,emailOn:true,wkLoc:'gym',homeMax:''},sessions:[],measures:[],tests:[],goals:[],swaps:{},active:null,weekGoals:{},outbox:[]};
+}
+let STORE_OK=true;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){if(STORE_OK){STORE_OK=false;setTimeout(()=>toast('⚠️ Este navegador no permite guardar datos. Exporta la copia antes de cerrar.'),500);}}}
+function weekNum(dateStr){return Math.max(1,Math.round((mondayOf(dateStr||today())-mondayOf(S.profile.start))/(7*864e5))+1);}
+const fmtD=d=>new Date(d+'T00:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});
+const unitLbl=u=>u==='kgdb'?'kg/manc.':u==='kg'?'kg':u==='s'?'seg':'reps';
+const exId=(id)=>S.swaps[id]||id;
+
+/* =========================================================
+   MOTOR DE PROGRESIÓN
+   ========================================================= */
+function history(id,loc){
+  const out=[];
+  S.sessions.forEach(s=>{if(loc&&(s.loc||'gym')!==loc)return;const sets=(s.entries[id]||[]).filter(x=>x.done&&x.r>0);if(sets.length)out.push({date:s.date,sets});});
+  return out.sort((a,b)=>a.date.localeCompare(b.date));
+}
+const e1rm=(w,r)=>w>0&&r>0?w*(1+Math.min(r,12)/30):0;
+function bestOf(id){
+  const ex=EX[id];let best={v:0};
+  history(id).forEach(h=>h.sets.forEach(s=>{
+    const v=(ex.unit==='kg'||ex.unit==='kgdb')?e1rm(+s.w,+s.r):+s.r;
+    if(v>best.v)best={v,w:+s.w,r:+s.r,date:h.date};
+  }));
+  return best;
+}
+function suggest(id,rx,ph,loc){
+  const ex=EX[id],h=history(id,loc),last=h[h.length-1];
+  const [lo,hi]=rx.reps;
+  if(!last){
+    if(ex.unit==='s')return{w:'',r:lo,msg:`Primera vez: aguanta ${lo} s con buena técnica.`};
+    if(ex.unit==='reps')return{w:'',r:lo,msg:`Primera vez: busca la versión con la que hagas ${lo}-${hi} repeticiones bien hechas.`};
+    return{w:'',r:hi,msg:`Primera vez: elige un peso con el que podrías hacer ${hi+3} repeticiones y haz ${hi}. Apúntalo.`};
+  }
+  const sets=last.sets, topW=Math.max(...sets.map(s=>+s.w||0));
+  const rpes=sets.map(s=>+s.rpe).filter(Boolean), avgR=rpes.length?rpes.reduce((a,b)=>a+b)/rpes.length:7.5;
+  const allTop=sets.length>=Math.min(2,rx.sets)&&sets.every(s=>+s.r>=hi), fails=sets.filter(s=>+s.r<lo).length;
+  if(ph.k==='de'){
+    if(ex.unit==='kg'||ex.unit==='kgdb')return{w:round(topW*0.8,ex.inc),r:lo,msg:'Semana de descarga: un 20 % menos de peso y nada de ir al fallo.'};
+    return{w:topW||'',r:lo,msg:'Semana de descarga: hazlo cómodo.'};
+  }
+  if(ex.unit==='s'){
+    const t=Math.max(...sets.map(s=>+s.r));
+    return allTop?{w:'',r:t+ex.inc,msg:`¡Superaste ${hi} s! Hoy, ${t+ex.inc} s.`}:{w:'',r:Math.min(hi,t+5),msg:'Intenta 5 s más que la última vez.'};
+  }
+  if(ex.unit==='reps'){
+    return allTop?{w:topW||'',r:lo,msg:ex.progTxt||'Haz la versión más difícil del ejercicio.'}:{w:topW||'',r:Math.min(hi,Math.max(...sets.map(s=>+s.r))+1),msg:'Busca 1 repetición más por serie.'};
+  }
+  if(allTop&&avgR<=8.5){const nw=round(topW+ex.inc,ex.inc);const hm=+S.profile.homeMax;if(loc==='casa'&&ex.unit==='kgdb'&&hm&&nw>hm)return{w:topW,r:Math.min(20,hi+3),msg:`Has llegado al máximo de tus mancuernas de casa (${hm} kg). Para seguir progresando: hasta ${Math.min(20,hi+3)} reps o bajadas de 3 segundos.`};return{w:nw,r:lo,up:true,msg:`⬆️ Sube a ${nw} ${ex.unit==='kgdb'?'kg por mancuerna':'kg'}. Llegaste a ${hi} repeticiones en todas las series. Empieza en ${lo} reps.`};}
+  if(fails>=2)return{w:topW,r:lo,msg:`Mantén ${topW} ${unitLbl(ex.unit)} y consolida. Si vuelve a costar mucho, baja ${ex.inc} kg.`};
+  const maxR=Math.max(...sets.map(s=>+s.r));
+  return{w:topW,r:Math.min(hi,maxR+1),msg:`Mismo peso (${topW}). Objetivo: +1 repetición en cada serie hasta llegar a ${hi}.`};
+}
+function round(v,inc){return Math.max(0,Math.round(v/inc)*inc);}
+
+/* =========================================================
+   RENDER FIGURAS ANIMADAS
+   ========================================================= */
+const FIGS=[];
+const SEG=[['n','e'],['e','w'],['n','p'],['p','k'],['k','a']];
+function figSVG(id,cls){
+  const uid='f'+Math.random().toString(36).slice(2,8);
+  setTimeout(()=>{const el=document.getElementById(uid);if(el)FIGS.push({el,id,t0:performance.now()+Math.random()*800});},0);
+  return `<div class="fig ${cls||''}"><svg id="${uid}" viewBox="0 -20 200 210"></svg></div>`;
+}
+function lerp(A,B,t){const o={};for(const k in A){const b=B[k]||A[k];o[k]=[A[k][0]+(b[0]-A[k][0])*t,A[k][1]+(b[1]-A[k][1])*t];}return o;}
+function ease(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
+function drawFig(f,now){
+  const ex=EX[f.id];if(!ex||!ex.pose)return;
+  const T=3200,ph=((now-f.t0)%T)/T;
+  let t; if(ph<.12)t=0;else if(ph<.45)t=ease((ph-.12)/.33);else if(ph<.6)t=1;else if(ph<.95)t=1-ease((ph-.6)/.35);else t=0;
+  const q=lerp(ex.pose.a,ex.pose.b,t);
+  const L=(a,b,c,w)=>q[a]&&q[b]?`<line x1="${q[a][0]}" y1="${q[a][1]}" x2="${q[b][0]}" y2="${q[b][1]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`:'';
+  let g=`<line x1="0" y1="181" x2="200" y2="181" stroke="#3a4253" stroke-width="2"/>`;
+  g+=propsSVG(ex.props||[],q,'back');
+  const far='#8a6a5c',near='#ffd9c7',body='#ffb08a';
+  // limbs far side
+  if(q.k2)g+=L('p','k2',far,9)+L('k2','a2',far,8);
+  const sh2=q.s2?'s2':'n'; if(q.e2)g+=line(q[sh2],q.e2,far,7)+L('e2','w2',far,6);
+  // torso
+  g+=L('n','p',body,13);
+  g+=L('p','k',near,10)+L('k','a',near,9);
+  if(q.a&&!ex.front&&!['plank','pushup','side_plank','leg_curl','dead_bug','leg_press'].includes(f.id))g+=`<line x1="${q.a[0]}" y1="${q.a[1]}" x2="${q.a[0]+11}" y2="${q.a[1]+1}" stroke="${near}" stroke-width="6" stroke-linecap="round"/>`;
+  const sh=q.s?'s':'n';g+=line(q[sh],q.e,near,8)+L('e','w',near,7);
+  if(q.s&&q.s2)g+=line(q.s,q.s2,body,9);
+  g+=`<circle cx="${q.h[0]}" cy="${q.h[1]}" r="11" fill="${near}"/>`;
+  g+=propsSVG(ex.props||[],q,'front');
+  f.el.innerHTML=g;
+}
+function line(a,b,c,w){return a&&b?`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`:'';}
+function propsSVG(props,q,layer){
+  let s='';const M='#5b6478',M2='#7d879c';
+  props.forEach(p=>{
+    const at=p.at?q[p.at]:null;
+    if(layer==='back'){
+      if(p.t==='bench')s+=`<rect x="28" y="142" width="104" height="9" rx="3" fill="${M}"/><rect x="40" y="151" width="6" height="29" fill="${M}"/><rect x="114" y="151" width="6" height="29" fill="${M}"/>`;
+      if(p.t==='benchSide')s+=`<rect x="22" y="132" width="38" height="12" rx="3" fill="${M}"/><rect x="34" y="144" width="12" height="36" fill="${M}"/>`;
+      if(p.t==='benchLow')s+=`<rect x="20" y="130" width="46" height="9" rx="3" fill="${M}"/><rect x="30" y="139" width="6" height="41" fill="${M}"/><rect x="52" y="139" width="6" height="41" fill="${M}"/>`;
+      if(p.t==='benchRow')s+=`<rect x="105" y="130" width="78" height="9" rx="3" fill="${M}"/><rect x="115" y="139" width="6" height="41" fill="${M}"/><rect x="168" y="139" width="6" height="41" fill="${M}"/>`;
+      if(p.t==='seat')s+=`<rect x="62" y="130" width="46" height="8" rx="3" fill="${M}"/><rect x="80" y="138" width="8" height="42" fill="${M}"/>`;
+      if(p.t==='back')s+=`<rect x="56" y="60" width="8" height="74" rx="3" fill="${M}"/>`;
+      if(p.t==='incline')s+=`<line x1="116" y1="148" x2="52" y2="82" stroke="${M}" stroke-width="10" stroke-linecap="round"/><rect x="104" y="148" width="7" height="32" fill="${M}"/>`;
+      if(p.t==='pressSeat')s+=`<line x1="22" y1="90" x2="100" y2="156" stroke="${M}" stroke-width="10" stroke-linecap="round"/><rect x="70" y="156" width="10" height="24" fill="${M}"/><line x1="150" y1="40" x2="190" y2="0" stroke="#3a4253" stroke-width="4"/>`;
+      if(p.t==='flatPad')s+=`<rect x="24" y="126" width="120" height="9" rx="3" fill="${M}"/><rect x="60" y="135" width="8" height="45" fill="${M}"/>`;
+      if(p.t==='mat')s+=`<rect x="10" y="177" width="180" height="4" rx="2" fill="#4a3b6b"/>`;
+      if(p.t==='rack')s+=`<rect x="48" y="10" width="6" height="170" fill="#3a4253"/><rect x="146" y="10" width="6" height="170" fill="#3a4253"/><rect x="48" y="118" width="104" height="4" fill="#3a4253"/>`;
+      if(p.t==='cable'&&at){const c=p.band?'#ff6b8a':p.trx?'#ffcc4d':'#9aa3b2';s+=`<line x1="${p.from[0]}" y1="${p.from[1]}" x2="${at[0]}" y2="${at[1]}" stroke="${c}" stroke-width="${p.band||p.trx?3:1.5}" ${p.band?'':'stroke-dasharray="0"'}/>`;if(!p.band&&!p.trx)s+=`<circle cx="${p.from[0]}" cy="${p.from[1]}" r="5" fill="${M2}"/>`;}
+    } else if(at){
+      if(p.t==='db')s+=`<g transform="translate(${at[0]},${at[1]})"><rect x="-9" y="-2.5" width="18" height="5" fill="#cfd5e0"/><rect x="-12" y="-7" width="6" height="14" rx="2" fill="#2c313c" stroke="#cfd5e0"/><rect x="6" y="-7" width="6" height="14" rx="2" fill="#2c313c" stroke="#cfd5e0"/></g>`;
+      if(p.t==='bar')s+=`<circle cx="${at[0]}" cy="${at[1]}" r="17" fill="#2c313c" stroke="#cfd5e0" stroke-width="3"/><circle cx="${at[0]}" cy="${at[1]}" r="3" fill="#cfd5e0"/>`;
+      if(p.t==='kb')s+=`<g transform="translate(${at[0]},${at[1]})"><path d="M-6 0 Q0 -10 6 0" stroke="#cfd5e0" stroke-width="3" fill="none"/><circle cx="0" cy="9" r="9" fill="#2c313c" stroke="#cfd5e0" stroke-width="2"/></g>`;
+      if(p.t==='handle')s+=`<rect x="${at[0]-3}" y="${at[1]-8}" width="6" height="16" rx="3" fill="#cfd5e0"/>`;
+      if(p.t==='hbar')s+=`<rect x="${at[0]-26}" y="${at[1]-2}" width="52" height="4" rx="2" fill="#cfd5e0"/>`;
+      if(p.t==='plate')s+=`<line x1="${at[0]-14}" y1="${at[1]-16}" x2="${at[0]+10}" y2="${at[1]+14}" stroke="#7d879c" stroke-width="6" stroke-linecap="round"/>`;
+      if(p.t==='roller')s+=`<circle cx="${at[0]}" cy="${at[1]}" r="7" fill="#7d879c"/>`;
+    }
+  });
+  return s;
+}
+function animLoop(now){
+  for(let i=FIGS.length-1;i>=0;i--){const f=FIGS[i];if(!f.el.isConnected){FIGS.splice(i,1);continue;}drawFig(f,now);}
+  requestAnimationFrame(animLoop);
+}
+requestAnimationFrame(animLoop);
+
+/* Mapa muscular */
+const MUS={front:{hombros:[[14,26,5,4.5],[42,26,5,4.5]],pecho:[[21,31,7,5],[35,31,7,5]],biceps:[[11,41,3.5,7],[45,41,3.5,7]],antebrazo:[[9,57,3,7],[47,57,3,7]],abdomen:[[28,49,6.5,11]],oblicuos:[[19.5,50,2.5,7],[36.5,50,2.5,7]],cuadriceps:[[22,80,5.5,13],[34,80,5.5,13]],_t:[[22,108,3.5,9],[34,108,3.5,9]]},
+ back:{trapecio:[[92,24,9,4]],hombros:[[78,27,4.5,4],[106,27,4.5,4]],dorsales:[[85,40,6,9],[99,40,6,9]],triceps:[[75,41,3.5,7],[109,41,3.5,7]],lumbares:[[92,56,6,5]],gluteos:[[86,70,6,6],[98,70,6,6]],femorales:[[86,88,5,11],[98,88,5,11]],gemelos:[[86,108,4,8],[98,108,4,8]],_a:[[73,57,3,7],[111,57,3,7]]}};
+function bodyMap(m1,m2){
+  let s=`<svg class="bodymap" viewBox="0 0 120 124"><circle cx="28" cy="10" r="7" fill="#3a4253"/><circle cx="92" cy="10" r="7" fill="#3a4253"/>`;
+  ['front','back'].forEach(side=>{for(const k in MUS[side]){const c=m1.includes(k)?'#ff6b35':m2.includes(k)?'#ffb347aa':'#3a4253';MUS[side][k].forEach(e=>s+=`<ellipse cx="${e[0]}" cy="${e[1]}" rx="${e[2]}" ry="${e[3]}" fill="${c}"/>`);}});
+  s+=`<text x="28" y="122" font-size="7" fill="#9aa3b2" text-anchor="middle">delante</text><text x="92" y="122" font-size="7" fill="#9aa3b2" text-anchor="middle">detrás</text></svg>`;
+  return s+`<div class="legend" style="justify-content:center;margin-top:4px"><span><i style="background:#ff6b35"></i>principal</span><span><i style="background:#ffb347aa"></i>secundario</span></div>`;
+}
+
+/* =========================================================
+   NAVEGACIÓN / UTILIDADES UI
+   ========================================================= */
+let CUR='hoy';
+function go(v){CUR=v;document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));document.querySelectorAll('nav.bottom button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));render();window.scrollTo(0,0);}
+function toast(t){const el=document.getElementById('toast');el.innerHTML=t;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),2600);}
+function openModal(html){document.getElementById('sheet').innerHTML=`<button class="btn sm ghost close" onclick="closeModal()">✕</button>`+html;document.getElementById('modal').classList.add('on');}
+function closeModal(){document.getElementById('modal').classList.remove('on');}
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const stBadge=st=>st==='ok'?'<span class="pill ok">✓ Confirmado en el Kata</span>':'<span class="pill warn">? Confirmar en sala</span>';
+
+const INFO={
+ rpe:`<h2>¿Qué es el RPE?</h2>
+ <p>El RPE es lo dura que ha sido una serie, en una escala del 6 al 10. Se decide <b>justo al terminar la serie</b>, pensando en cuántas repeticiones más podrías haber hecho con buena técnica.</p>
+ <table class="table small"><tr><th>RPE</th><th>Te quedaban…</th><th>Sensación</th></tr>
+ <tr><td><b>6</b></td><td>4 o más reps</td><td>Fácil, calentando</td></tr>
+ <tr><td><b>7</b></td><td>3 reps</td><td>Exigente pero cómodo</td></tr>
+ <tr><td><b>8</b></td><td>2 reps</td><td><b>La zona buena</b></td></tr>
+ <tr><td><b>9</b></td><td>1 rep</td><td>Muy duro</td></tr>
+ <tr><td><b>10</b></td><td>0 reps</td><td>No podías hacer ni una más</td></tr></table>
+ <h3 style="margin-top:14px">¿Para qué sirve?</h3>
+ <ul class="clean small"><li>La app lo usa para decidir cuándo subir peso: si llegas al tope de repeticiones con RPE 8 o menos, te sugiere subir.</li><li>Cada fase tiene su RPE objetivo (lo ves arriba). En adaptación es 6-7: no hace falta sufrir.</li><li>Si un día no lo rellenas, no pasa nada: la app supone 7-8.</li></ul>`,
+ orm:`<h2>¿Qué es el 1RM estimado?</h2>
+ <p><b>1RM</b> significa "una repetición máxima": el peso más alto que podrías levantar <b>una sola vez</b>. No hace falta probarlo, y a tu edad no compensa el riesgo. La app lo <b>calcula</b> con tus series normales.</p>
+ <div class="card" style="background:var(--card2)"><b>Fórmula de Epley</b><br><span class="kbd">peso × (1 + reps ÷ 30)</span><br><span class="small muted">Ejemplo: 16 kg × 12 reps → 16 × 1,4 = <b>22,4 kg</b></span></div>
+ <h3>¿Para qué sirve?</h3>
+ <ul class="clean small"><li>Compara días distintos aunque cambies peso y repeticiones. 14 kg × 12 y 16 kg × 8 dan casi lo mismo (19,6 y 20,3).</li><li><b>Si la línea naranja sube, eres más fuerte.</b> Es tu indicador principal de progreso.</li><li>En las mancuernas el peso es <b>por mancuerna</b>.</li></ul>
+ <h3>¿Y "Peso máximo usado"?</h3>
+ <p class="small">Es la línea azul: el peso más alto con el que hiciste al menos una serie ese día. Puede quedarse igual varias semanas mientras sube el 1RM, porque estás sumando repeticiones con el mismo peso. Eso también es progreso.</p>`
+};
+function info(k){openModal(INFO[k]);}
+function header(){
+  const wk=weekNum(),ph=phaseOf(wk);
+  document.getElementById('hello').textContent='Hola, '+(S.profile.name||'Marcos');
+  document.getElementById('weekPill').textContent=`Semana ${wk} · Ciclo ${ph.cycle}`;
+  document.getElementById('phaseLine').textContent=`Fase: ${ph.name} · RPE ${ph.rpe}`;
+}
+function render(){header();({hoy:rHoy,plan:rPlan,ej:rEj,prog:rProg,mas:rMas})[CUR]();}
+
+/* =========================================================
+   TIMER DESCANSO
+   ========================================================= */
+const Timer={end:0,total:0,iv:null,
+  start(sec){this.total=sec;this.end=Date.now()+sec*1000;document.getElementById('timerbar').classList.add('on');clearInterval(this.iv);this.iv=setInterval(()=>this.tick(),250);this.tick();},
+  add(s){this.end+=s*1000;this.total+=s;this.tick();},
+  stop(){clearInterval(this.iv);document.getElementById('timerbar').classList.remove('on');},
+  tick(){const left=Math.max(0,Math.round((this.end-Date.now())/1000));document.getElementById('tbT').textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');document.getElementById('tbBar').style.width=(left/this.total*100)+'%';
+    if(left<=0){this.stop();beep();if(S.profile.vibrate&&navigator.vibrate)navigator.vibrate([200,100,200]);toast('⏱️ ¡A por la siguiente serie!');}}
+};
+let AC;function beep(){if(!S.profile.sound)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();[0,.25,.5].forEach((d,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=i===2?1046:784;o.connect(g);g.connect(AC.destination);g.gain.setValueAtTime(.25,AC.currentTime+d);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d+.2);o.start(AC.currentTime+d);o.stop(AC.currentTime+d+.22);});}catch(e){}}
+
+/* =========================================================
+   VISTA HOY / SESIÓN
+   ========================================================= */
+let pickDay=null;
+const slot=d=>d==='H'?'C':d;
+function weekDone(){const wk=weekNum();return S.sessions.filter(s=>weekNum(s.date)===wk).map(s=>slot(s.day));}
+function plannedFor(ds){const g=new Date(ds+'T00:00').getDay();return g===1?'A':g===3?'B':(g===6||g===0)?(S.profile.wkLoc==='casa'?'H':'C'):null;}
+function nextDay(){const t=plannedFor(today()),done=weekDone();if(t&&!done.includes(slot(t)))return t;for(const d of['A','B','C'])if(!done.includes(d))return d==='C'&&S.profile.wkLoc==='casa'?'H':d;return t||'A';}
+function sessionDates(){return[...new Set(S.sessions.map(s=>s.date))].sort();}
+function restInfo(){
+  const ds=sessionDates(),last=ds[ds.length-1],t=today();
+  if(!last)return{lvl:'ok',t:'Listo para empezar',d:'Primera sesión: tómatela con calma y céntrate en aprender la técnica.'};
+  const days=Math.round((new Date(t+'T00:00')-new Date(last+'T00:00'))/864e5);
+  if(days===0)return{lvl:'done',t:'Hoy ya has entrenado ✔',d:'Ahora toca recuperar: come con proteína, bebe agua y duerme 8-9 h.'};
+  if(days===1){const two=ds.includes(addDays(t,-2));return{lvl:'rest',t:'Hoy toca descanso',d:two?'Llevas dos días seguidos entrenando. Hoy, descanso total.':'Ayer entrenaste. El músculo crece mientras descansas: hoy, paseo de 20-30 min, estiramientos o foam roller. Si aun así hoy toca entreno, hazlo un punto más suave (RPE −1).'};}
+  if(days<=4)return{lvl:'ok',t:'Recuperado ✅',d:`${days} días desde tu último entreno. Estás descansado: a por ello.`};
+  return{lvl:'warn',t:`${days} días sin entrenar`,d:'Vuelve hoy aunque sea con la sesión en casa. Después de un parón es normal bajar un poco el peso.'};
+}
+function trainedYesterday(){return sessionDates().includes(addDays(today(),-1));}
+function weekStrip(){
+  const mon=mondayOf(today()),t=today(),L=['L','M','X','J','V','S','D'];let h='<div class="wkstrip">',rest=0;
+  for(let i=0;i<7;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);const k=ymdOf(d),ss=S.sessions.filter(s=>s.date===k),pl=plannedFor(k),past=k<t;
+    let cls='',mark='·';
+    if(ss.length){cls='done';mark=ss.map(s=>`<span style="color:${DAYS[s.day].color}">${s.day==='H'?'🏠':s.day}</span>`).join('');}
+    else if(past&&sessionDates()[0]&&k>sessionDates()[0]){cls='rest';mark='😴';rest++;}
+    else if(pl){cls='plan';mark=pl==='H'?'🏠':pl;}
+    h+=`<div class="${cls} ${k===t?'today':''}">${L[i]}<b>${mark}</b></div>`;}
+  return {html:h+'</div>',rest};
+}
+function nextText(ds){const g=new Date(ds+'T00:00').getDay();
+  if(g===1||g===2)return'Miércoles · Día B en el Kata';
+  if(g>=3&&g<=5)return'Fin de semana · Día C en el Kata, o sesión en casa si estás en Madrid (mejor el sábado)';
+  return'Lunes · Día A en el Kata';}
+function restAdviceText(ds){const g=new Date(ds+'T00:00').getDay();
+  if(g===0)return'Mañana es lunes y vienes de entrenar hoy. Haz el Día A un punto más suave (RPE 6-7) o pásalo al martes. Esta noche, cena con proteína y a dormir pronto.';
+  return'Mañana, descanso: paseo de 20-30 min, 10 min de estiramientos y 8-9 h de sueño. El músculo crece mientras descansas.';}
+function ensureWeekGoals(){
+  S.weekGoals=S.weekGoals||{};const k='w'+weekNum();if(S.weekGoals[k])return S.weekGoals[k];
+  const wk=weekNum(),ph=phaseOf(wk),mains=[];['A','B','C'].forEach(d=>DAYS[d].ex.filter(e=>e.role==='main').forEach(e=>mains.push(exId(e.id))));
+  const off=(wk*3)%mains.length,rot=mains.slice(off).concat(mains).slice(0,3);
+  const g=[{type:'count',t:'Completar 3 entrenos'},{type:'rest',t:'Al menos 1 día de descanso entre entrenos'}];
+  rot.forEach(id=>{const ex=EX[id],rx=prescription({id,role:'main'},ph),sg=suggest(id,rx,ph,'gym');
+    if(ex.unit.startsWith('kg')&&sg.w)g.push({type:'lift',id,w:+sg.w,r:sg.r,t:`${ex.n}: ${sg.w} ${ex.unit==='kgdb'?'kg/manc.':'kg'} × ${sg.r}`});
+    else if(ex.unit==='reps'||ex.unit==='s')g.push({type:'reps',id,r:sg.r,t:`${ex.n}: ${sg.r} ${ex.unit==='s'?'s':'reps'} en una serie`});
+    else g.push({type:'log',id,t:`${ex.n}: apuntar tu peso de trabajo`});});
+  g.push({type:'feel',t:'Valorar cómo te sientes en todas las sesiones'});
+  S.weekGoals[k]=g;save();return g;
+}
+function goalDone(g){
+  const wk=weekNum(),ss=S.sessions.filter(s=>weekNum(s.date)===wk);
+  if(g.type==='count')return[ss.length,3];
+  if(g.type==='rest'){const ds=[...new Set(ss.map(s=>s.date))].sort();let ok=ds.length>=2;for(let i=1;i<ds.length;i++)if(addDays(ds[i-1],1)===ds[i])ok=false;return[ok?1:0,1];}
+  if(g.type==='feel')return[ss.length>=1&&ss.every(s=>s.feel)?1:0,1];
+  const hit=ss.some(s=>(s.entries[g.id]||[]).some(x=>g.type==='lift'?(+x.w>=g.w&&+x.r>=g.r):g.type==='reps'?+x.r>=g.r:+x.r>0));return[hit?1:0,1];
+}
+function weekGoalsCard(){
+  const gs=ensureWeekGoals(),res=gs.map(g=>({g,d:goalDone(g)})),ok=res.filter(x=>x.d[0]>=x.d[1]).length;
+  return `<div class="card"><div class="row between"><h3 style="margin:0">🎯 Objetivos de esta semana</h3><span class="pill ${ok===gs.length?'ok':'acc'}">${ok}/${gs.length}</span></div>
+  ${res.map(({g,d})=>`<div class="row small" style="padding:5px 0;gap:8px"><span>${d[0]>=d[1]?'✅':'⬜'}</span><span style="flex:1">${esc(g.t)}${g.type==='count'?` <span class="muted">(${d[0]}/3)</span>`:''}</span></div>`).join('')}
+  <p class="tiny muted" style="margin:.5em 0 0">Se generan cada lunes según tu progreso y se marcan solos.</p></div>`;
+}
+function weekSessions(){const wk=weekNum();return S.sessions.filter(s=>weekNum(s.date)===wk).length;}
+function rHoy(){
+  const el=document.getElementById('v-hoy');
+  if(S.active){el.innerHTML=sessionHTML();bindSession();return;}
+  const nd=pickDay||nextDay(),D=DAYS[nd],wk=weekNum(),ph=phaseOf(wk),ws=weekSessions();
+  const totalS=S.sessions.length, streak=weekStreak();
+  const ri=restInfo(),ws2=weekStrip();
+  el.innerHTML=`
+  <div class="card rest-${ri.lvl}"><div class="row between"><h3 style="margin:0">${ri.t}</h3><span class="pill">${ws2.rest} día${ws2.rest===1?'':'s'} de descanso</span></div><p class="small muted" style="margin:.3em 0 0">${ri.d}</p>${ws2.html}</div>
+  <div class="card hi">
+    <div class="row between"><h2 style="margin:0">Entreno de hoy</h2><span class="pill" style="background:${ph.color}22;color:${ph.color}">${ph.name}</span></div>
+    <p class="muted small" style="margin:.3em 0 .8em">${ph.txt}</p>
+    <div class="row" style="gap:6px">${['A','B','C','H'].map(d=>`<div class="daybtn ${d===nd?'on':''}" onclick="pickDay='${d}';if('${d}'==='C'||'${d}'==='H'){S.profile.wkLoc='${d}'==='H'?'casa':'gym';save();}rHoy()"><b style="color:${DAYS[d].color}">${d==='H'?'🏠':d}</b><span class="tiny muted">${DAYS[d].dow}</span></div>`).join('')}</div>
+    ${trainedYesterday()&&ri.lvl!=='done'?'<div class="sug" style="margin-top:8px;border-color:rgba(255,204,77,.5);background:rgba(255,204,77,.08)">⚠️ Ayer entrenaste. Si entrenas hoy, baja un punto el RPE y no busques récords.</div>':''}
+    <div class="hr"></div>
+    <h3>${D.name} · <span class="muted" style="font-weight:400">${D.focus}</span></h3>
+    <div class="exlist" style="margin-top:8px">${D.ex.map(it=>{const id=exId(it.id),ex=EX[id],rx=prescription(it,ph),sg=suggest(id,rx,ph,D.loc);
+      return `<div class="ex" onclick="showEx('${id}')">${figSVG(id)}<div class="meta"><b>${ex.n}</b><span class="small muted">${rx.sets} × ${rx.reps[0]}-${rx.reps[1]} ${ex.unit==='s'?'s':'reps'} · ${it.role==='main'?'Principal':it.role==='core'?'Core':'Accesorio'}</span>${sg.w!==''&&sg.w!==undefined?`<div class="tiny" style="color:var(--blue)">Sugerido: ${sg.w} ${unitLbl(ex.unit)}</div>`:''}</div><span class="muted">›</span></div>`;}).join('')}
+      <div class="ex" style="cursor:default"><div class="fig" style="width:64px;height:64px;display:grid;place-items:center;font-size:28px">🚣</div><div class="meta"><b>Cardio: ${D.cardio.m} · ${D.cardio.min} min</b><span class="small muted">${D.cardio.txt}</span></div></div>
+    </div>
+    <div class="row small muted" style="justify-content:space-between;margin:6px 2px 12px"><span>⏱️ ~10' calentamiento · ~${D.loc==='casa'?'45':'55'}' fuerza · ~${D.cardio.min}' cardio · ~8' estiramientos${D.loc==='casa'?' · en casa: ~75 min':''}</span></div>
+    <button class="btn pri block" onclick="startSession('${nd}')">▶ Empezar ${D.name}</button>
+  </div>
+  <div class="grid4">
+    <div class="stat"><b>${ws}/3</b><span>esta semana</span></div>
+    <div class="stat"><b>${totalS}</b><span>sesiones</span></div>
+    <div class="stat"><b>${streak}</b><span>sem. racha</span></div>
+    <div class="stat"><b>${wk}</b><span>semana plan</span></div>
+  </div>
+  <div style="height:12px"></div>${weekGoalsCard()}
+  <div class="card" style="margin-top:12px"><div class="row between"><h3 style="margin:0">Ciclo de 12 semanas</h3><span class="tiny muted">Semana ${ph.w} de 12</span></div>${phaseBar(ph.w)}</div>
+  ${lastSessionCard()}
+  ${S.sessions.length===0?`<div class="card"><h3>👋 Antes de empezar</h3><ul class="clean tip small"><li>El primer día, pide a un monitor que te enseñe dónde está cada máquina. Están en sala de 6:30 a 23:00.</li><li>Las máquinas marcadas con <span class="pill warn">?</span> son habituales, pero la web del Kata no las detalla. Si alguna no está, pulsa "Cambiar" en el ejercicio y usa la alternativa.</li><li>Apunta siempre el peso y las repeticiones. La app calcula sola cuándo subir.</li><li>Los fines de semana que estés en Madrid, elige 🏠 <b>Día Casa</b>: la misma idea, pero con mancuernas. Indica en Más → Ajustes hasta qué peso tienes allí.</li><li>Al terminar cada sesión te llega un email con el resumen, consejos de comida y tus objetivos.</li></ul></div>`:''}
+  `;
+}
+function phaseBar(cur){let s='<div class="phase">';for(let w=1;w<=12;w++){const p=phaseOf(w);s+=`<i style="background:${p.color}" class="${w===cur?'cur':''}">${w}</i>`;}return s+'</div><div class="legend"><span><i style="background:#5aa9ff"></i>Adaptación</span><span><i style="background:#ff6b35"></i>Hipertrofia</span><span><i style="background:#ffb347"></i>Fuerza</span><span><i style="background:#3ecf8e"></i>Descarga</span></div>';}
+function lastSessionCard(){
+  const l=[...S.sessions].sort((a,b)=>b.date.localeCompare(a.date))[0];if(!l)return'';
+  return `<div class="card"><div class="row between"><h3 style="margin:0">Última sesión</h3><span class="pill">${fmtD(l.date)}</span></div><p class="small muted" style="margin:.4em 0 0">${DAYS[l.day].name} · ${l.dur||'?'} min · ${sessionVolume(l).toLocaleString('es-ES')} kg movidos ${l.feel?'· '+['','😫','😕','🙂','💪','🔥'][l.feel]:''}${l.prs&&l.prs.length?' · 🏆 '+l.prs.length+' récord(s)':''}</p></div>`;
+}
+function startSession(d){
+  const wk=weekNum(),ph=phaseOf(wk),D=DAYS[d];
+  const entries={};
+  D.ex.forEach(it=>{const id=exId(it.id),ex=EX[id],rx=prescription(it,ph),sg=suggest(id,rx,ph,D.loc);entries[id]=Array.from({length:rx.sets},()=>({w:sg.w===undefined?'':sg.w,r:'',rpe:'',done:false,target:sg.r}));});
+  S.active={day:d,loc:D.loc,date:today(),start:Date.now(),entries,warm:[],cool:[],cardio:{done:false,val:''},week:wk};
+  save();rHoy();window.scrollTo(0,0);
+  toast('💪 ¡Sesión iniciada! Empieza por el calentamiento');
+}
+function sessionHTML(){
+  const A=S.active,D=DAYS[A.day],ph=phaseOf(A.week);
+  const WU=warmFor(A.day),nSets=Object.values(A.entries).flat(),done=nSets.filter(s=>s.done).length,pct=Math.round((done+A.warm.length/WU.length*2+(A.cardio.done?2:0)+A.cool.length/COOLDOWN.length*1)/(nSets.length+5)*100);
+  return `
+  <div class="card hi" style="position:sticky;top:6px;z-index:20">
+    <div class="row between"><div><h2 style="margin:0">${D.name} <span class="muted small" style="font-weight:400">en curso</span></h2><span class="small muted">RPE objetivo ${ph.rpe}<button class="q" onclick="info('rpe')">?</button> · descanso ${ph.rest}s${A.loc==='casa'?' · 🏠 en casa':''}</span></div><div style="text-align:right"><div class="kbd" id="elapsed" style="font-size:1.4rem;font-weight:800">00:00</div><span class="tiny muted">de 90:00</span></div></div>
+    <div class="progress" style="margin-top:10px"><i style="width:${Math.min(100,pct)}%"></i></div>
+  </div>
+  <div class="card"><h3>🔥 Calentamiento (10')</h3>${WU.map((w,i)=>`<div class="check ${A.warm.includes(i)?'on':''}" onclick="togArr('warm',${i})"><div class="box">${A.warm.includes(i)?'✓':''}</div><span class="lbl small">${w}</span></div>`).join('')}</div>
+  ${D.ex.map(it=>exBlock(it,ph)).join('')}
+  <div class="card"><h3>❤️ Cardio · ${D.cardio.m} (${D.cardio.min}')</h3><p class="small muted">${D.cardio.txt}</p>
+    <div class="row"><input id="cardioVal" placeholder="Metros, km o nota (ej. 2.400 m)" value="${esc(A.cardio.val)}" oninput="S.active.cardio.val=this.value;save()"><button class="chk ${A.cardio.done?'on':''}" onclick="S.active.cardio.done=!S.active.cardio.done;save();rHoy()">✓</button></div></div>
+  <div class="card"><h3>🧘 Vuelta a la calma (8')</h3>${COOLDOWN.map((w,i)=>`<div class="check ${A.cool.includes(i)?'on':''}" onclick="togArr('cool',${i})"><div class="box">${A.cool.includes(i)?'✓':''}</div><span class="lbl small">${w}</span></div>`).join('')}</div>
+  <div class="card"><h3>¿Cómo te has sentido?</h3>
+    <div class="feel" id="feel">${['😫','😕','🙂','💪','🔥'].map((e,i)=>`<button class="${A.feel===i+1?'on':''}" onclick="S.active.feel=${i+1};save();document.querySelectorAll('#feel button').forEach((b,j)=>b.classList.toggle('on',j===${i}))">${e}</button>`).join('')}</div>
+    <textarea id="notes" rows="2" style="margin-top:8px" placeholder="Notas: molestias, máquinas ocupadas, sensaciones..." oninput="S.active.notes=this.value;save()">${esc(A.notes||'')}</textarea>
+  </div>
+  <button class="btn ok block" style="margin-bottom:10px" onclick="finishSession()">✅ Terminar y guardar sesión</button>
+  <button class="btn danger block" onclick="if(confirm('¿Descartar esta sesión? Se perderán los datos de hoy.')){S.active=null;save();Timer.stop();rHoy();}">Descartar sesión</button>`;
+}
+function exBlock(it,ph){
+  const id=exId(it.id),ex=EX[id],rx=prescription(it,ph),loc=S.active.loc||'gym',sg=suggest(id,rx,ph,loc),sets=S.active.entries[id]||[];
+  const best=bestOf(id), isW=ex.unit==='kg'||ex.unit==='kgdb';
+  const prev=history(id,loc).pop();
+  return `<div class="card" id="blk-${id}">
+    <div class="row" style="align-items:flex-start">
+      <div onclick="showEx('${id}')" style="cursor:pointer">${figSVG(id)}</div>
+      <div style="flex:1;min-width:0">
+        <div class="row between"><b>${ex.n}</b><button class="btn sm ghost" onclick="swapEx('${it.id}')">⇄ Cambiar</button></div>
+        <div class="small muted">${rx.sets} series × ${rx.reps[0]}-${rx.reps[1]} ${ex.unit==='s'?'seg':'reps'} · ${ex.eq}</div>
+        <div class="row wrap" style="gap:6px;margin-top:4px">${stBadge(ex.st)}${best.v?`<span class="pill acc">🏆 ${isW?best.w+' kg × '+best.r:best.r+(ex.unit==='s'?' s':' reps')}</span>`:''}</div>
+      </div>
+    </div>
+    <div class="sug">💡 ${sg.msg}${prev?`<div class="tiny muted" style="margin-top:3px">Última vez (${fmtD(prev.date)}): ${prev.sets.map(s=>(isW?s.w+'×':'')+s.r).join(' · ')}</div>`:''}</div>
+    <table class="sets"><tr><th>Serie</th>${isW?`<th>${unitLbl(ex.unit)}</th>`:''}<th>${ex.unit==='s'?'Seg':'Reps'}</th><th>RPE<button class="q" onclick="info('rpe')">?</button></th><th></th></tr>
+    ${sets.map((s,i)=>`<tr class="${s.done?'done':''}"><td class="muted">${i+1}</td>${isW?`<td><input inputmode="decimal" value="${esc(s.w)}" oninput="setV('${id}',${i},'w',this.value)"></td>`:''}<td><input inputmode="numeric" placeholder="${s.target||''}" value="${esc(s.r)}" oninput="setV('${id}',${i},'r',this.value)"></td><td><select onchange="setV('${id}',${i},'rpe',this.value)"><option value="">–</option>${[6,7,8,9,10].map(v=>`<option ${+s.rpe===v?'selected':''}>${v}</option>`).join('')}</select></td><td><button class="chk ${s.done?'on':''}" onclick="doneSet('${id}',${i},${rx.rest})">✓</button></td></tr>`).join('')}
+    </table>
+    <div class="row" style="margin-top:6px;gap:6px"><button class="btn sm ghost" onclick="addSet('${id}')">+ Serie</button>${sets.length>1?`<button class="btn sm ghost" onclick="delSet('${id}')">− Serie</button>`:''}<button class="btn sm ghost" onclick="Timer.start(${rx.rest})">⏱ ${rx.rest}s</button></div>
+  </div>`;
+}
+let elapsedIv;
+function bindSession(){clearInterval(elapsedIv);const tick=()=>{const el=document.getElementById('elapsed');if(!el||!S.active){clearInterval(elapsedIv);return;}const m=Math.floor((Date.now()-S.active.start)/1000);el.textContent=String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');el.style.color=m>5400?'var(--warn)':'';};tick();elapsedIv=setInterval(tick,1000);}
+function togArr(k,i){const a=S.active[k],j=a.indexOf(i);j>=0?a.splice(j,1):a.push(i);save();const y=scrollY;rHoy();scrollTo(0,y);}
+function setV(id,i,k,v){S.active.entries[id][i][k]=v.replace(',','.');save();}
+function doneSet(id,i,rest){
+  const s=S.active.entries[id][i];
+  if(!s.done&&!s.r&&s.target)s.r=String(s.target);
+  s.done=!s.done;
+  if(s.done&&i+1<S.active.entries[id].length){const n=S.active.entries[id][i+1];if(n.w===''||n.w===undefined)n.w=s.w;}
+  save();const y=scrollY;rHoy();scrollTo(0,y);
+  if(s.done){Timer.start(rest);if(S.profile.vibrate&&navigator.vibrate)navigator.vibrate(40);}
+}
+function addSet(id){const a=S.active.entries[id],l=a[a.length-1]||{};a.push({w:l.w||'',r:'',rpe:'',done:false,target:l.target});save();const y=scrollY;rHoy();scrollTo(0,y);}
+function delSet(id){S.active.entries[id].pop();save();const y=scrollY;rHoy();scrollTo(0,y);}
+function swapEx(orig){
+  const base=EX[orig],cur=exId(orig),opts=[orig,...base.alt.filter(a=>a!==orig)];
+  if(EX[orig].next)opts.push(EX[orig].next);
+  openModal(`<h2>Cambiar ejercicio</h2><p class="small muted">Si la máquina está ocupada, no existe o quieres progresar, elige una alternativa. El cambio se recuerda para próximas sesiones.</p>
+  ${[...new Set(opts)].map(id=>`<div class="ex" style="display:flex;gap:12px;align-items:center;padding:10px;border-radius:12px;background:var(--card);margin-bottom:8px;cursor:pointer;${id===cur?'outline:2px solid var(--acc)':''}" onclick="doSwap('${orig}','${id}')">${figSVG(id)}<div><b>${EX[id].n}</b><div class="small muted">${EX[id].eq}</div>${stBadge(EX[id].st)}</div></div>`).join('')}`);
+}
+function doSwap(orig,id){
+  const old=exId(orig);if(id===orig)delete S.swaps[orig];else S.swaps[orig]=id;
+  if(S.active&&old!==id){const ph=phaseOf(S.active.week),it=Object.values(DAYS).flatMap(d=>d.ex).find(e=>e.id===orig),rx=prescription({id,role:it.role},ph),sg=suggest(id,rx,ph,S.active.loc||'gym');delete S.active.entries[old];S.active.entries[id]=Array.from({length:rx.sets},()=>({w:sg.w??'',r:'',rpe:'',done:false,target:sg.r}));}
+  save();closeModal();render();toast('Ejercicio cambiado a '+EX[id].n);
+}
+function finishSession(){
+  const A=S.active,entries={};let any=false;
+  for(const id in A.entries){const d=A.entries[id].filter(s=>s.done);if(d.length){entries[id]=d.map(s=>({w:+s.w||0,r:+s.r||0,rpe:+s.rpe||0,done:true}));any=true;}}
+  if(!any&&!confirm('No has marcado ninguna serie como hecha. ¿Guardar igualmente?'))return;
+  // PRs
+  const prs=[];
+  for(const id in entries){const before=bestOf(id).v,ex=EX[id];entries[id].forEach(s=>{const v=(ex.unit==='kg'||ex.unit==='kgdb')?e1rm(s.w,s.r):s.r;if(v>before&&before>0&&!prs.includes(id))prs.push(id);});}
+  const s={id:Date.now(),loc:A.loc||DAYS[A.day].loc||'gym',date:A.date,day:A.day,dur:Math.round((Date.now()-A.start)/60000),entries,cardio:A.cardio.val,feel:A.feel||0,notes:A.notes||'',prs,week:A.week};
+  S.sessions.push(s);S.active=null;save();Timer.stop();
+  const vol=sessionVolume(s);
+  openModal(`<div style="text-align:center"><div style="font-size:3rem">🎉</div><h2>¡Sesión completada!</h2><p class="muted">${DAYS[s.day].name} · ${s.dur} min</p></div>
+   <div class="grid3"><div class="stat"><b>${Object.values(entries).flat().length}</b><span>series</span></div><div class="stat"><b>${vol.toLocaleString('es-ES')}</b><span>kg totales</span></div><div class="stat"><b>${prs.length}</b><span>récords</span></div></div>
+   ${prs.length?`<div class="card" style="margin-top:12px"><h3>🏆 Nuevos récords</h3>${prs.map(id=>`<div class="small">• ${EX[id].n}</div>`).join('')}</div>`:''}
+   <p class="small muted" style="text-align:center;margin-top:12px">Llevas ${weekSessions()}/3 esta semana. ${esc(restAdviceText(s.date))}</p>
+   ${S.profile.emailOn!==false?'<p class="tiny muted" style="text-align:center">📧 Te llegará el resumen por email en unos segundos.</p>':''}
+   <button class="btn pri block" onclick="closeModal();go('prog')">Ver mi progreso</button>`);
+  pickDay=null;render();
+  queueSummary(s);
+}
+function queueSummary(s){
+  if(S.profile.emailOn===false)return;
+  const wk=weekNum(s.date),ph=phaseOf(wk);
+  const goals=ensureWeekGoals().map(g=>{const d=goalDone(g);return{t:g.t+(g.type==='count'?` (${d[0]}/3)`:''),done:d[0]>=d[1]};});
+  const isW=id=>EX[id]&&EX[id].unit.startsWith('kg');
+  const payload={app:'kata-marcos-v1',name:S.profile.name||'Marcos',week:wk,phase:ph.name,weekCount:S.sessions.filter(x=>weekNum(x.date)===wk).length,weekGoals:goals,
+    restAdvice:restAdviceText(s.date),next:nextText(s.date),
+    session:{date:s.date,dateLabel:new Date(s.date+'T00:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'}),day:s.day,dayName:DAYS[s.day].name,place:s.loc==='casa'?'En casa (Madrid)':'Gimnasio Kata',dur:s.dur,
+      sets:Object.values(s.entries).flat().length,volume:sessionVolume(s),feel:s.feel,cardio:s.cardio,prs:(s.prs||[]).map(id=>EX[id].n),
+      exercises:Object.keys(s.entries).filter(id=>EX[id]).map(id=>({n:EX[id].n,pr:(s.prs||[]).includes(id),sets:s.entries[id].map(x=>(isW(id)?x.w+'×':'')+x.r+(EX[id].unit==='s'?' s':'')).join(' · ')}))}};
+  S.outbox=S.outbox||[];S.outbox.push(payload);save();flushOutbox();
+}
+let flushing=false;
+async function flushOutbox(){
+  if(flushing||!S.outbox||!S.outbox.length||!navigator.onLine)return;flushing=true;
+  try{while(S.outbox.length){await fetch(WEBHOOK,{method:'POST',mode:'no-cors',body:JSON.stringify(S.outbox[0])});S.outbox.shift();save();toast('📧 Resumen enviado a tu email');}}
+  catch(e){}finally{flushing=false;}
+}
+window.addEventListener('online',flushOutbox);
+function sessionVolume(s){let v=0;for(const id in s.entries){const ex=EX[id];if(!ex||!(ex.unit==='kg'||ex.unit==='kgdb'))continue;s.entries[id].forEach(x=>v+=(x.w||0)*(x.r||0)*(ex.unit==='kgdb'&&!['tri_ext','goblet'].includes(id)?2:1));}return Math.round(v);}
+function weekStreak(){
+  if(!S.sessions.length)return 0;const cur=weekNum();let n=0;
+  for(let w=cur;w>=1;w--){const c=S.sessions.filter(s=>weekNum(s.date)===w).length;if(c>=3)n++;else if(w===cur)continue;else break;}
+  return n;
+}
+
+/* =========================================================
+   VISTA PLAN
+   ========================================================= */
+let planTab='rutina';
+function rPlan(){
+  const el=document.getElementById('v-plan'),wk=weekNum(),ph=phaseOf(wk);
+  const tabs=[['rutina','Rutina semanal'],['fases','Progresión 12 semanas'],['reglas','Cómo progresar'],['gym','Máquinas del Kata']];
+  let h=`<div class="tabs noprint">${tabs.map(t=>`<div class="tab ${planTab===t[0]?'on':''}" onclick="planTab='${t[0]}';rPlan()">${t[1]}</div>`).join('')}</div>`;
+  if(planTab==='rutina'){
+    h+=`<div class="card"><div class="row between"><h2 style="margin:0">Full body · 3 días</h2><button class="btn sm ghost noprint" onclick="printPlan()">🖨 Imprimir</button></div><p class="small muted">Lunes (A) y miércoles (B) en el Kata. El fin de semana, Día C en el Kata o 🏠 Día Casa si estás en Madrid; mejor el sábado, para llegar descansado al lunes. 90 min por sesión (unos 75 en casa). Valores de la fase actual: <b>${ph.name}</b>.</p></div>`;
+    for(const d in DAYS){const D=DAYS[d];
+      h+=`<div class="card"><div class="row between"><h3 style="margin:0;color:${D.color}">${D.name} · ${D.dow}</h3><span class="tiny muted">90'</span></div><p class="small muted" style="margin:.2em 0 .6em">${D.focus}</p>
+      <table class="table"><tr><th>#</th><th>Ejercicio</th><th>Series × reps</th><th>Desc.</th></tr>
+      <tr><td>0</td><td>Calentamiento${D.loc==='casa'?' (sin máquinas)':''}</td><td>10 min</td><td>–</td></tr>
+      ${D.ex.map((it,i)=>{const id=exId(it.id),rx=prescription(it,ph);return `<tr onclick="showEx('${id}')" style="cursor:pointer"><td>${i+1}</td><td><b>${EX[id].n}</b><div class="tiny muted">${EX[id].eq} ${EX[id].st==='check'?'· <span style="color:var(--warn)">confirmar</span>':''}</div></td><td>${rx.sets} × ${rx.reps[0]}-${rx.reps[1]}${EX[id].unit==='s'?' s':''}</td><td>${rx.rest}s</td></tr>`;}).join('')}
+      <tr><td>❤️</td><td>${D.cardio.m}<div class="tiny muted">${D.cardio.txt}</div></td><td>${D.cardio.min} min</td><td>–</td></tr>
+      <tr><td>🧘</td><td>Estiramientos y foam roller</td><td>8 min</td><td>–</td></tr></table></div>`;}
+  }
+  if(planTab==='fases'){
+    h+=`<div class="card"><h2>Periodización en 12 semanas</h2>${phaseBar(ph.w)}<p class="small muted">Al terminar la semana 12 empieza el ciclo 2, con los pesos que hayas alcanzado y un poco más de exigencia en el core.</p></div>`;
+    [[1,'Semanas 1-4'],[5,'Semanas 5-8'],[9,'Semanas 9-11'],[12,'Semana 12']].forEach(([w,l])=>{const p=phaseOf(w);
+      h+=`<div class="card" style="border-left:4px solid ${p.color}"><div class="row between"><h3 style="margin:0">${p.name}</h3><span class="pill">${l}</span></div><p class="small" style="margin:.4em 0">${p.txt}</p>
+      <div class="grid3"><div class="stat"><b>${p.main.sets}×${p.main.reps.join('-')}</b><span>principales</span></div><div class="stat"><b>${p.acc.sets}×10-15</b><span>accesorios</span></div><div class="stat"><b>${p.rpe}</b><span>RPE</span></div></div></div>`;});
+  }
+  if(planTab==='reglas'){
+    h+=`<div class="card"><h2>📈 Doble progresión</h2><p class="small">Es el método que usa la app:</p><ol class="steps small"><li>Cada ejercicio tiene un rango, por ejemplo 8-12 repeticiones.</li><li>Empieza con un peso con el que hagas 8 bien hechas.</li><li>Cada sesión, intenta 1 repetición más por serie.</li><li>Cuando hagas <b>12 en todas las series</b>, sube el peso mínimo (2 kg por mancuerna, 2,5-5 kg en máquina) y vuelve a 8.</li></ol><p class="small muted">La app te sugiere el peso de cada día según tu última sesión.</p></div>
+    <div class="card"><h2>🎯 RPE: escala de esfuerzo <button class="q" onclick="info('rpe')">?</button></h2><table class="table small"><tr><th>RPE</th><th>Qué significa</th></tr><tr><td><b>6</b></td><td>Podrías hacer 4 o más repeticiones extra. Fácil.</td></tr><tr><td><b>7</b></td><td>Te quedan 3 en reserva.</td></tr><tr><td><b>8</b></td><td>Te quedan 2. <b>Zona ideal.</b></td></tr><tr><td><b>9</b></td><td>Solo te queda 1. Úsalo poco.</td></tr><tr><td><b>10</b></td><td>No puedes hacer ni una más (fallo). Evítalo con peso libre.</td></tr></table></div>
+    <div class="card"><h2>🛡️ Reglas de oro</h2><ul class="clean small"><li><b>La técnica antes que el peso.</b> Si la técnica se rompe, la serie se acaba.</li><li>Calienta siempre: 10 minutos que evitan lesiones.</li><li>Respira: suelta el aire en el esfuerzo y no aguantes la respiración mucho rato.</li><li>Seguros del rack y compañero cuando uses barra pesada. Ante la duda, pregunta al monitor.</li><li>Un dolor punzante o en una articulación no es normal. Para y coméntalo. Las agujetas sí lo son.</li><li>Nada de buscar tu máximo a 1 repetición: a tu edad no hace falta. Las repeticiones y la constancia hacen el trabajo.</li></ul></div>
+    <div class="card"><h2>🍽️ Fuera del gimnasio</h2><ul class="clean tip small"><li><b>Dormir 8-9 h.</b> Es cuando más progresas.</li><li>Proteína en cada comida: huevos, carne, pescado, legumbres, lácteos.</li><li>Come suficiente. Si estás creciendo, comer poco frena el progreso.</li><li>Agua: lleva una botella al gimnasio.</li><li>No hacen falta suplementos. Primero, la comida real.</li></ul></div>`;
+  }
+  if(planTab==='gym'){
+    h+=`<div class="card hi"><h2>${GYM.name}</h2><p class="small" style="margin:.3em 0">📍 ${GYM.addr}<br>🕐 ${GYM.hours}<br>👟 ${GYM.monitors}<br>☎️ ${GYM.tel}</p><p class="tiny muted">Fuente: web oficial gimnasiokata.com (noviembre de 2026). La maquinaria es de la marca Matrix.</p></div>
+    <div class="card"><h3>Equipamiento y qué usa la rutina</h3><table class="table">${GYM.zones.map(z=>`<tr><td><b>${z.z}</b><div class="tiny muted">${z.items}</div></td><td style="text-align:right">${z.st==='ok'?'<span class="pill ok">✓</span>':'<span class="pill warn">?</span>'}</td></tr>`).join('')}</table>
+    <p class="small muted" style="margin-top:8px"><span class="pill ok">✓</span> confirmado en la web del gimnasio. <span class="pill warn">?</span> habitual en salas Matrix, pero hay que comprobarlo el primer día. Todos los ejercicios con <span class="pill warn">?</span> tienen una alternativa con mancuernas o TRX (botón "Cambiar").</p></div>
+    <div class="card"><h3>✅ Checklist primer día</h3>${['Pedir al monitor una vuelta por la sala','Localizar: prensa, jalón, remo, curl femoral, press pecho y press hombro','Comprobar si hay bancos inclinables y polea con cuerda','Ver dónde están el TRX, las kettlebells y las bandas','Probar la altura del asiento en cada máquina y apuntarla en "Notas"'].map((t,i)=>{const on=(S.profile.check1||[]).includes(i);return`<div class="check ${on?'on':''}" onclick="togCheck1(${i})"><div class="box">${on?'✓':''}</div><span class="lbl small">${t}</span></div>`;}).join('')}</div>`;
+  }
+  el.innerHTML=h;
+}
+function togCheck1(i){const a=S.profile.check1=S.profile.check1||[],j=a.indexOf(i);j>=0?a.splice(j,1):a.push(i);save();rPlan();}
+function printPlan(){const v=document.getElementById('v-plan');v.classList.add('printme');window.print();setTimeout(()=>v.classList.remove('printme'),500);}
+
+/* =========================================================
+   VISTA EJERCICIOS
+   ========================================================= */
+let exFilter='todos';
+function rEj(){
+  const el=document.getElementById('v-ej');
+  const groups=[['todos','Todos'],['pierna','Pierna y glúteo'],['empuje','Pecho y hombro'],['tiron','Espalda'],['brazos','Brazos'],['core','Core'],['rutina','En mi rutina']];
+  const inRut=new Set(Object.values(DAYS).flatMap(d=>d.ex.map(e=>exId(e.id))));
+  const cat=id=>{const m=EX[id].m1;if(m.some(x=>['cuadriceps','gluteos','femorales'].includes(x)))return'pierna';if(m.some(x=>['pecho','hombros'].includes(x)))return'empuje';if(m.some(x=>['dorsales','trapecio'].includes(x)))return'tiron';if(m.some(x=>['biceps','triceps'].includes(x)))return'brazos';return'core';};
+  const list=Object.keys(EX).filter(id=>exFilter==='todos'||(exFilter==='rutina'?inRut.has(id):cat(id)===exFilter));
+  el.innerHTML=`<div class="tabs">${groups.map(g=>`<div class="tab ${exFilter===g[0]?'on':''}" onclick="exFilter='${g[0]}';rEj()">${g[1]}</div>`).join('')}</div>
+  <p class="small muted" style="margin:0 2px 10px">Toca un ejercicio para ver la animación, la técnica, los músculos y tu historial.</p>
+  <div class="exlist">${list.map(id=>{const ex=EX[id],b=bestOf(id);return`<div class="ex" onclick="showEx('${id}')">${figSVG(id)}<div class="meta"><b>${ex.n}</b><span class="small muted">${ex.eq}</span><div class="row wrap" style="gap:4px;margin-top:3px">${inRut.has(id)?'<span class="pill acc tiny">En rutina</span>':''}${ex.st==='check'?'<span class="pill warn tiny">Confirmar</span>':''}${b.v?`<span class="pill blue tiny">🏆 ${ex.unit.startsWith('kg')?b.w+'kg×'+b.r:b.r}</span>`:''}</div></div><span class="muted">›</span></div>`;}).join('')}</div>`;
+}
+function showEx(id){
+  const ex=EX[id],h=history(id),b=bestOf(id),isW=ex.unit==='kg'||ex.unit==='kgdb';
+  openModal(`<h2 style="padding-right:40px">${ex.n}</h2><div class="row wrap" style="gap:6px;margin-bottom:10px"><span class="pill">${ex.eq}</span>${stBadge(ex.st)}</div>
+  <div class="bigfig">${figSVG(id,'').replace('class="fig "','class="fig" style="width:100%;height:100%"')}</div>
+  <div class="grid2"><div class="card" style="margin:0"><h4>Músculos</h4>${bodyMap(ex.m1,ex.m2)}</div>
+   <div class="card" style="margin:0"><h4>Tu historial</h4>${b.v?`<div class="stat" style="margin-bottom:6px"><b>${isW?b.w+' kg × '+b.r:b.r+(ex.unit==='s'?' s':' reps')}</b><span>mejor marca${isW?' · 1RM estimado '+b.v.toFixed(1)+' kg <button class="q" onclick="info(\'orm\')">?</button>':''}</span></div><canvas id="exChart" height="110"></canvas>`:'<p class="small muted">Todavía no hay datos. Lo verás aquí en cuanto lo entrenes.</p>'}</div></div>
+  <h3 style="margin-top:14px">Paso a paso</h3><ol class="steps small">${ex.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+  <h3>Claves técnicas</h3><ul class="clean small">${ex.cues.map(s=>`<li>${s}</li>`).join('')}</ul>
+  <h3>Errores comunes</h3><ul class="clean bad small">${ex.errs.map(s=>`<li>${s}</li>`).join('')}</ul>
+  ${ex.nextTxt||ex.progTxt?`<h3>Siguiente nivel</h3><ul class="clean tip small"><li>${ex.nextTxt||ex.progTxt}</li></ul>`:''}
+  ${ex.alt.length?`<h3>Alternativas</h3><div class="row wrap" style="gap:6px">${ex.alt.map(a=>`<button class="btn sm" onclick="showEx('${a}')">${EX[a].n}</button>`).join('')}</div>`:''}
+  ${h.length?`<h3 style="margin-top:14px">Sesiones</h3><table class="table small">${h.slice(-8).reverse().map(x=>`<tr><td>${fmtD(x.date)}</td><td>${x.sets.map(s=>(isW?s.w+'×':'')+s.r).join(' · ')}</td></tr>`).join('')}</table>`:''}`);
+  if(b.v)setTimeout(()=>{const pts=h.map(x=>({x:x.date.slice(5),y:isW?Math.max(...x.sets.map(s=>e1rm(+s.w,+s.r))):Math.max(...x.sets.map(s=>+s.r))}));lineChart(document.getElementById('exChart'),pts,{color:'#ff6b35',dec:isW?1:0});},30);
+}
+
+/* =========================================================
+   VISTA PROGRESO
+   ========================================================= */
+let progEx=null;
+function rProg(){
+  const el=document.getElementById('v-prog');
+  const all=S.sessions;
+  if(!all.length){el.innerHTML=`<div class="card emptyst"><div style="font-size:3rem">📊</div><h3>Aquí verás tu evolución</h3><p class="small">Cuando completes tu primera sesión aparecerán gráficas de fuerza, el volumen semanal, el calendario de asistencia y tus récords.</p><button class="btn pri" onclick="go('hoy')">Ir al entreno</button></div>`;return;}
+  const trained=[...new Set(all.flatMap(s=>Object.keys(s.entries)))].filter(id=>EX[id]);
+  if(!progEx||!trained.includes(progEx))progEx=trained[0];
+  const totVol=all.reduce((a,s)=>a+sessionVolume(s),0),totMin=all.reduce((a,s)=>a+(s.dur||0),0);
+  const prCount=all.reduce((a,s)=>a+(s.prs||[]).length,0);
+  const adh=adherence();
+  el.innerHTML=`
+  <div class="grid4">
+    <div class="stat"><b>${all.length}</b><span>sesiones</span></div>
+    <div class="stat"><b>${(totVol/1000).toFixed(1)}t</b><span>kg levantados</span></div>
+    <div class="stat"><b>${Math.round(totMin/60)}h</b><span>entrenando</span></div>
+    <div class="stat"><b>${prCount}</b><span>récords</span></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div class="row between"><h3 style="margin:0">Asistencia</h3><span class="pill ${adh>=80?'ok':adh>=60?'warn':''}">${adh}% cumplimiento</span></div><p class="tiny muted">Últimas 16 semanas · objetivo: 3 por semana · 🏋️ Kata: ${all.filter(s=>(s.loc||'gym')==='gym').length} · 🏠 Casa: ${all.filter(s=>s.loc==='casa').length}</p>${heatmap()}</div>
+  <div class="card"><h3>Fuerza por ejercicio</h3><select onchange="progEx=this.value;rProg()">${trained.map(id=>`<option value="${id}" ${id===progEx?'selected':''}>${EX[id].n}</option>`).join('')}</select>
+   <canvas id="pc1" height="170" style="margin-top:10px"></canvas><div class="legend" style="margin-top:6px"><span><i style="background:#ff6b35"></i>${EX[progEx].unit.startsWith('kg')?'Fuerza estimada (1RM)':'Mejor serie'}</span>${EX[progEx].unit.startsWith('kg')?'<span><i style="background:#5aa9ff"></i>Peso máximo usado</span><button class="q" onclick="info(\'orm\')">?</button>':''}</div>
+   <div id="exDelta" class="small" style="margin-top:8px"></div></div>
+  <div class="card"><h3>Volumen semanal (kg × reps)</h3><canvas id="pc2" height="150"></canvas></div>
+  <div class="card"><h3>Sensaciones y duración</h3><canvas id="pc3" height="130"></canvas><div class="legend" style="margin-top:6px"><span><i style="background:#3ecf8e"></i>Sensación (1-5)</span><span><i style="background:#ffb347"></i>Minutos ÷ 20</span></div></div>
+  <div class="card"><h3>🏆 Mejores marcas</h3><table class="table small">${trained.map(id=>{const b=bestOf(id),ex=EX[id];return`<tr onclick="showEx('${id}')" style="cursor:pointer"><td>${ex.n}</td><td style="text-align:right"><b>${ex.unit.startsWith('kg')?b.w+' kg × '+b.r:b.r+(ex.unit==='s'?' s':' reps')}</b><div class="tiny muted">${fmtD(b.date)}</div></td></tr>`;}).join('')}</table></div>
+  <div class="card"><h3>Historial</h3><table class="table small">${[...all].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,30).map(s=>`<tr><td>${fmtD(s.date)}</td><td><b style="color:${DAYS[s.day].color}">${s.day}</b></td><td>${s.dur||'?'}′</td><td>${sessionVolume(s).toLocaleString('es-ES')} kg</td><td>${s.feel?['','😫','😕','🙂','💪','🔥'][s.feel]:''}</td><td><button class="btn sm ghost" onclick="viewSession(${s.id})">Ver</button></td></tr>`).join('')}</table></div>`;
+  setTimeout(()=>{
+    const ex=EX[progEx],isW=ex.unit.startsWith('kg'),h=history(progEx);
+    const p1=h.map(x=>({x:x.date.slice(5),y:isW?Math.max(...x.sets.map(s=>e1rm(+s.w,+s.r))):Math.max(...x.sets.map(s=>+s.r))}));
+    const p2=isW?h.map(x=>({x:x.date.slice(5),y:Math.max(...x.sets.map(s=>+s.w))})):null;
+    lineChart(document.getElementById('pc1'),p1,{color:'#ff6b35',second:p2,dec:isW?1:0});
+    if(p1.length>1){const d=p1[p1.length-1].y-p1[0].y,pc=p1[0].y?d/p1[0].y*100:0;document.getElementById('exDelta').innerHTML=`Desde el primer registro: <b style="color:${d>=0?'var(--ok)':'var(--bad)'}">${d>=0?'+':''}${d.toFixed(1)} (${pc>=0?'+':''}${pc.toFixed(0)}%)</b>`;}
+    const wv={};S.sessions.forEach(s=>{const w=weekNum(s.date);wv[w]=(wv[w]||0)+sessionVolume(s);});
+    const ks=Object.keys(wv).map(Number).sort((a,b)=>a-b);
+    barChart(document.getElementById('pc2'),ks.map(k=>({x:'S'+k,y:wv[k],c:phaseOf(k).color})));
+    const ss=[...S.sessions].sort((a,b)=>a.date.localeCompare(b.date));
+    lineChart(document.getElementById('pc3'),ss.map(s=>({x:s.date.slice(5),y:s.feel||0})),{color:'#3ecf8e',second:ss.map(s=>({x:'',y:(s.dur||0)/20})),secondColor:'#ffb347',min:0,max:5,dec:0});
+  },30);
+}
+function adherence(){const cur=weekNum();let need=0,got=0;for(let w=Math.max(1,cur-7);w<=cur;w++){const c=S.sessions.filter(s=>weekNum(s.date)===w).length;if(w===cur&&c<3)continue;need+=3;got+=Math.min(3,c);}return need?Math.round(got/need*100):100;}
+function heatmap(){
+  const days=new Set(S.sessions.map(s=>s.date)),t=new Date();t.setHours(0,0,0,0);
+  const start=new Date(t);start.setDate(start.getDate()-((start.getDay()+6)%7)-15*7);
+  let s='<div class="heat" style="margin-top:8px">';
+  for(let i=0;i<16*7;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');const fut=d>t;s+=`<i class="${days.has(k)?'l2':''} ${+d===+t?'today':''}" style="${fut?'opacity:.25':''}" title="${k}"></i>`;}
+  return s+'</div><div class="row between tiny muted" style="margin-top:4px"><span>hace 16 sem.</span><span>hoy</span></div>';
+}
+function viewSession(sid){
+  const s=S.sessions.find(x=>x.id===sid);if(!s)return;
+  openModal(`<h2>${DAYS[s.day].name} · ${fmtD(s.date)}</h2><p class="small muted">${s.dur} min · semana ${s.week||weekNum(s.date)} · ${sessionVolume(s).toLocaleString('es-ES')} kg ${s.cardio?'· cardio: '+esc(s.cardio):''}</p>
+  <table class="table small">${Object.keys(s.entries).map(id=>`<tr><td><b>${EX[id]?.n||id}</b>${(s.prs||[]).includes(id)?' 🏆':''}</td><td>${s.entries[id].map(x=>(EX[id]?.unit.startsWith('kg')?x.w+'×':'')+x.r+(x.rpe?'@'+x.rpe:'')).join(' · ')}</td></tr>`).join('')}</table>
+  ${s.notes?`<p class="small"><b>Notas:</b> ${esc(s.notes)}</p>`:''}
+  <button class="btn danger sm" onclick="if(confirm('¿Borrar esta sesión?')){S.sessions=S.sessions.filter(x=>x.id!==${sid});save();closeModal();render();}">Borrar sesión</button>`);
+}
+
+/* =========================================================
+   GRÁFICAS (canvas)
+   ========================================================= */
+function setupCanvas(c){const dpr=window.devicePixelRatio||1,w=c.clientWidth,h=+c.getAttribute('height');c.width=w*dpr;c.height=h*dpr;c.style.height=h+'px';const g=c.getContext('2d');g.scale(dpr,dpr);return{g,w,h};}
+function lineChart(c,pts,o={}){
+  if(!c)return;const{g,w,h}=setupCanvas(c);const pad={l:34,r:10,t:10,b:20};
+  if(!pts.length){g.fillStyle='#6b7383';g.font='12px sans-serif';g.fillText('Sin datos aún',w/2-36,h/2);return;}
+  const all=pts.map(p=>p.y).concat(o.second?o.second.map(p=>p.y):[]);
+  let mn=o.min??Math.min(...all),mx=o.max??Math.max(...all);if(mn===mx){mn-=1;mx+=1;}const sp=mx-mn;if(o.min===undefined){mn-=sp*.1;}if(o.max===undefined)mx+=sp*.1;
+  const X=i=>pad.l+(pts.length===1?(w-pad.l-pad.r)/2:i*(w-pad.l-pad.r)/(pts.length-1)),Y=v=>pad.t+(1-(v-mn)/(mx-mn))*(h-pad.t-pad.b);
+  g.strokeStyle='#2e3442';g.fillStyle='#6b7383';g.font='10px sans-serif';g.lineWidth=1;
+  for(let i=0;i<=3;i++){const v=mn+(mx-mn)*i/3,y=Y(v);g.beginPath();g.moveTo(pad.l,y);g.lineTo(w-pad.r,y);g.stroke();g.fillText(v.toFixed(o.dec??0),2,y+3);}
+  const step=Math.ceil(pts.length/6);pts.forEach((p,i)=>{if(i%step===0&&p.x)g.fillText(p.x,X(i)-12,h-4);});
+  const draw=(arr,col,fill)=>{g.strokeStyle=col;g.lineWidth=2.5;g.lineJoin='round';g.beginPath();arr.forEach((p,i)=>i?g.lineTo(X(i),Y(p.y)):g.moveTo(X(i),Y(p.y)));g.stroke();
+    if(fill&&arr.length>1){const gr=g.createLinearGradient(0,pad.t,0,h);gr.addColorStop(0,col+'55');gr.addColorStop(1,col+'00');g.fillStyle=gr;g.lineTo(X(arr.length-1),h-pad.b);g.lineTo(X(0),h-pad.b);g.closePath();g.fill();}
+    g.fillStyle=col;arr.forEach((p,i)=>{g.beginPath();g.arc(X(i),Y(p.y),3,0,7);g.fill();});};
+  if(o.second)draw(o.second,o.secondColor||'#5aa9ff',false);
+  draw(pts,o.color||'#ff6b35',true);
+}
+function barChart(c,pts){
+  if(!c)return;const{g,w,h}=setupCanvas(c);const pad={l:40,r:6,t:10,b:20};if(!pts.length)return;
+  const mx=Math.max(...pts.map(p=>p.y))*1.1||1,bw=(w-pad.l-pad.r)/pts.length;
+  g.font='10px sans-serif';g.fillStyle='#6b7383';g.strokeStyle='#2e3442';
+  for(let i=0;i<=3;i++){const v=mx*i/3,y=pad.t+(1-i/3)*(h-pad.t-pad.b);g.beginPath();g.moveTo(pad.l,y);g.lineTo(w-pad.r,y);g.stroke();g.fillText(v>=1000?(v/1000).toFixed(1)+'k':Math.round(v),2,y+3);}
+  pts.forEach((p,i)=>{const bh=p.y/mx*(h-pad.t-pad.b),x=pad.l+i*bw+bw*.15;g.fillStyle=p.c||'#ff6b35';g.beginPath();g.roundRect?g.roundRect(x,h-pad.b-bh,bw*.7,bh,4):g.rect(x,h-pad.b-bh,bw*.7,bh);g.fill();g.fillStyle='#6b7383';if(pts.length<=16||i%2===0)g.fillText(p.x,x,h-5);});
+}
+
+/* =========================================================
+   VISTA MÁS: Objetivos · Tests · Medidas · Ajustes
+   ========================================================= */
+let masTab='obj';
+const TESTS=[{k:'push',n:'Flexiones seguidas',u:'reps',hi:1},{k:'plank',n:'Plancha máxima',u:'s',hi:1},{k:'sq60',n:'Sentadillas en 1 min',u:'reps',hi:1},{k:'row500',n:'500 m en remo',u:'s',hi:0},{k:'jump',n:'Salto horizontal',u:'cm',hi:1}];
+const AUTO_GOALS=[
+  {id:'g1',t:'Completar 12 sesiones (1 mes)',f:()=>[S.sessions.length,12]},
+  {id:'g2',t:'4 semanas seguidas con 3 sesiones',f:()=>[weekStreak(),4]},
+  {id:'g3',t:'Completar el ciclo de 12 semanas (36 sesiones)',f:()=>[S.sessions.length,36]},
+  {id:'g4',t:'Sentadilla goblet: 24 kg × 10',f:()=>[maxW('goblet',10),24],u:'kg'},
+  {id:'g5',t:'Press banca mancuernas: 16 kg × 10',f:()=>[maxW('db_bench',10),16],u:'kg'},
+  {id:'g6',t:'Plancha 60 s',f:()=>[Math.max(bestOf('plank').r||0,...S.tests.map(t=>+t.plank||0)),60],u:'s'},
+  {id:'g7',t:'20 flexiones seguidas',f:()=>[Math.max(0,...S.tests.map(t=>+t.push||0)),20]},
+];
+function maxW(id,minR){let m=0;history(id).forEach(h=>h.sets.forEach(s=>{if(+s.r>=minR&&+s.w>m)m=+s.w;}));return m;}
+function rMas(){
+  const el=document.getElementById('v-mas');
+  const tabs=[['obj','🎯 Objetivos'],['test','🧪 Tests'],['med','📏 Medidas'],['aj','⚙️ Ajustes']];
+  let h=`<div class="tabs">${tabs.map(t=>`<div class="tab ${masTab===t[0]?'on':''}" onclick="masTab='${t[0]}';rMas()">${t[1]}</div>`).join('')}</div>`;
+  if(masTab==='obj'){
+    h+=weekGoalsCard();
+    h+=`<div class="card"><h2>Objetivos del plan</h2><p class="small muted">Se actualizan solos con lo que registras.</p>${AUTO_GOALS.map(g=>{const[v,t]=g.f(),p=Math.min(100,Math.round(v/t*100));return goalRow(g.t,v,t,p,g.u);}).join('')}</div>
+    <div class="card"><h2>Mis objetivos</h2>${S.goals.length?S.goals.map((g,i)=>{let v=0,t=+g.target||1;if(g.ex){v=EX[g.ex]?.unit.startsWith('kg')?maxW(g.ex,+g.reps||1):(bestOf(g.ex).r||0);}else v=g.done?t:0;const p=Math.min(100,Math.round(v/t*100));return goalRow(g.text+(g.ex?'':''),v,t,p,g.ex&&EX[g.ex]?.unit.startsWith('kg')?'kg':'',`<button class="btn sm ghost" onclick="${g.ex?'':`S.goals[${i}].done=!S.goals[${i}].done;save();rMas();`}">${g.ex?'':'✓'}</button><button class="btn sm ghost" onclick="S.goals.splice(${i},1);save();rMas()">🗑</button>`);}).join(''):'<p class="small muted">Todavía no has añadido ninguno.</p>'}
+     <div class="hr"></div><h3>Nuevo objetivo</h3>
+     <div class="grid2"><div><label>Ejercicio (opcional)</label><select id="gEx"><option value="">— Objetivo libre —</option>${Object.keys(EX).map(id=>`<option value="${id}">${EX[id].n}</option>`).join('')}</select></div><div><label>Descripción</label><input id="gTxt" placeholder="Ej. Hip thrust 60 kg"></div><div><label>Meta (kg, reps o s)</label><input id="gTar" inputmode="decimal" placeholder="60"></div><div><label>Con al menos (reps)</label><input id="gReps" inputmode="numeric" placeholder="8"></div></div>
+     <button class="btn pri block" style="margin-top:10px" onclick="addGoal()">Añadir objetivo</button></div>`;
+  }
+  if(masTab==='test'){
+    const last=S.tests[S.tests.length-1],due=!last||(new Date(today())-new Date(last.date))/864e5>=28;
+    h+=`<div class="card ${due?'hi':''}"><h2>Test de condición física</h2><p class="small muted">Hazlo cada 4 semanas, al principio de una sesión y después de calentar. ${due?'<b style="color:var(--acc2)">¡Toca hacerlo!</b>':'Próximo test: '+fmtD(addDays(last.date,28))}</p>
+    <div class="grid2">${TESTS.map(t=>`<div><label>${t.n} (${t.u})</label><input id="t_${t.k}" inputmode="decimal"></div>`).join('')}</div>
+    <button class="btn pri block" style="margin-top:10px" onclick="saveTest()">Guardar test</button></div>
+    ${S.tests.length?`<div class="card"><h3>Evolución</h3><table class="table small"><tr><th>Test</th>${S.tests.slice(-5).map(t=>`<th>${t.date.slice(5)}</th>`).join('')}<th>Δ</th></tr>${TESTS.map(t=>{const vals=S.tests.slice(-5).map(x=>x[t.k]);const f=S.tests.find(x=>x[t.k]!=='' && x[t.k]!=null)?.[t.k],l=[...S.tests].reverse().find(x=>x[t.k]!==''&&x[t.k]!=null)?.[t.k];const d=(f!=null&&l!=null)?(+l-+f):null;const good=d!=null&&(t.hi?d>0:d<0);return`<tr><td>${t.n}</td>${vals.map(v=>`<td>${v||'–'}</td>`).join('')}<td style="color:${d?good?'var(--ok)':'var(--bad)':''}">${d?((d>0?'+':'')+d):'–'}</td></tr>`;}).join('')}</table>
+    <label style="margin-top:10px">Gráfica</label><select id="tSel" onchange="drawTest()">${TESTS.map(t=>`<option value="${t.k}">${t.n}</option>`).join('')}</select><canvas id="tc" height="140" style="margin-top:8px"></canvas>
+    <button class="btn sm danger" style="margin-top:8px" onclick="if(confirm('¿Borrar el último test?')){S.tests.pop();save();rMas();}">Borrar último test</button></div>`:''}`;
+  }
+  if(masTab==='med'){
+    h+=`<div class="card"><h2>Medidas corporales</h2><p class="small muted">Opcional. Una vez al mes, por la mañana. Estás creciendo: la altura también cuenta, y el peso subirá de forma natural.</p>
+    <div class="grid2"><div><label>Peso (kg)</label><input id="m_peso" inputmode="decimal"></div><div><label>Altura (cm)</label><input id="m_alt" inputmode="decimal"></div><div><label>Brazo contraído (cm)</label><input id="m_brazo" inputmode="decimal"></div><div><label>Pecho (cm)</label><input id="m_pecho" inputmode="decimal"></div><div><label>Muslo (cm)</label><input id="m_muslo" inputmode="decimal"></div><div><label>Cintura (cm)</label><input id="m_cint" inputmode="decimal"></div></div>
+    <button class="btn pri block" style="margin-top:10px" onclick="saveMeasure()">Guardar medidas</button></div>
+    ${S.measures.length?`<div class="card"><h3>Evolución</h3><select id="mSel" onchange="drawMeasure()">${[['peso','Peso'],['alt','Altura'],['brazo','Brazo'],['pecho','Pecho'],['muslo','Muslo'],['cint','Cintura']].map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select><canvas id="mc" height="140" style="margin-top:8px"></canvas>
+    <table class="table small" style="margin-top:10px"><tr><th>Fecha</th><th>Peso</th><th>Alt.</th><th>Brazo</th><th>Pecho</th><th>Muslo</th><th>Cint.</th></tr>${[...S.measures].reverse().map(m=>`<tr><td>${m.date.slice(5)}</td><td>${m.peso||'–'}</td><td>${m.alt||'–'}</td><td>${m.brazo||'–'}</td><td>${m.pecho||'–'}</td><td>${m.muslo||'–'}</td><td>${m.cint||'–'}</td></tr>`).join('')}</table></div>`:''}`;
+  }
+  if(masTab==='aj'){
+    h+=`<div class="card"><h2>Perfil</h2><div class="grid2"><div><label>Nombre</label><input value="${esc(S.profile.name)}" onchange="S.profile.name=this.value;save();header()"></div><div><label>Inicio del plan (semana 1)</label><input type="date" value="${S.profile.start}" onchange="S.profile.start=this.value;save();render()"></div></div>
+     <div class="check ${S.profile.sound?'on':''}" style="margin-top:10px" onclick="S.profile.sound=!S.profile.sound;save();rMas()"><div class="box">${S.profile.sound?'✓':''}</div><span>Sonido al terminar el descanso</span></div>
+     <div class="check ${S.profile.vibrate?'on':''}" onclick="S.profile.vibrate=!S.profile.vibrate;save();rMas()"><div class="box">${S.profile.vibrate?'✓':''}</div><span>Vibración (Android)</span></div>
+     <div class="check ${S.profile.emailOn!==false?'on':''}" onclick="S.profile.emailOn=S.profile.emailOn===false;save();rMas()"><div class="box">${S.profile.emailOn!==false?'✓':''}</div><span>Enviarme un email con el resumen al terminar cada sesión</span></div>
+     ${S.outbox&&S.outbox.length?`<p class="small" style="color:var(--warn)">📧 ${S.outbox.length} resumen(es) pendiente(s) de enviar. Se enviarán cuando haya conexión. <button class="btn sm ghost" onclick="flushOutbox()">Reintentar</button></p>`:''}</div>
+    <div class="card"><h2>🏠 Material en Madrid</h2><p class="small muted">Para el Día Casa. Si llegas al máximo de tus mancuernas, la app te propone más repeticiones o bajadas más lentas en lugar de subir peso.</p>
+     <div class="grid2"><div><label>Mancuernas hasta (kg por mancuerna)</label><input inputmode="decimal" value="${esc(S.profile.homeMax||'')}" placeholder="Ej. 12" onchange="S.profile.homeMax=this.value.replace(',','.');save()"></div><div><label>Otro material</label><input value="${esc(S.profile.homeGear||'')}" placeholder="Ej. barra, gomas, banco" onchange="S.profile.homeGear=this.value;save()"></div></div></div>
+    <div class="card"><h2>📱 Instalar en el móvil</h2><ul class="clean tip small"><li><b>iPhone (Safari):</b> botón Compartir → "Añadir a pantalla de inicio".</li><li><b>Android (Chrome):</b> menú ⋮ → "Añadir a pantalla de inicio".</li><li>Úsala siempre desde el mismo sitio (el icono). Los datos se guardan en ese navegador: exporta una copia de vez en cuando.</li></ul></div>
+    <div class="card"><h2>Ejercicios cambiados</h2>${Object.keys(S.swaps).length?Object.entries(S.swaps).map(([o,n])=>`<div class="row between small" style="padding:6px 0"><span>${EX[o].n} → <b>${EX[n].n}</b></span><button class="btn sm ghost" onclick="delete S.swaps['${o}'];save();rMas()">Restaurar</button></div>`).join(''):'<p class="small muted">Ninguno. Estás usando la rutina original.</p>'}</div>
+    <div class="card"><h2>Copia de seguridad</h2><p class="small muted">Los datos se guardan solo en este navegador. Exporta cada cierto tiempo, sobre todo si cambias de móvil o borras el historial.</p>
+     <div class="grid2"><button class="btn" onclick="exportData()">⬇ Exportar (.json)</button><label class="btn" style="margin:0;color:var(--txt);font-size:inherit">⬆ Importar<input type="file" accept=".json" style="display:none" onchange="importData(this.files[0])"></label></div>
+     <button class="btn block" style="margin-top:8px" onclick="exportCSV()">📄 Exportar series a CSV (Excel)</button></div>
+    <div class="card"><h2>Zona peligrosa</h2><button class="btn danger block" onclick="if(confirm('¿Borrar TODOS los datos? No se puede deshacer.')){try{localStorage.removeItem(KEY)}catch(e){};S=load();render();toast('Datos borrados');}">Borrar todos los datos</button>
+     <button class="btn ghost block" style="margin-top:8px" onclick="if(confirm('Se añadirán datos de ejemplo de 3 semanas para probar la app. ¿Continuar?'))demo()">Cargar datos de ejemplo</button></div>
+    <p class="tiny muted" style="text-align:center">Kata Training v1 · Rutina para ${esc(S.profile.name)} · ${GYM.name}, Salamanca</p>`;
+  }
+  el.innerHTML=h;
+  if(masTab==='test'&&S.tests.length)setTimeout(drawTest,30);
+  if(masTab==='med'&&S.measures.length)setTimeout(drawMeasure,30);
+}
+function goalRow(t,v,tar,p,u,extra=''){return`<div style="margin:10px 0"><div class="row between small"><span>${p>=100?'✅ ':''}${esc(t)}</span><span class="row" style="gap:4px"><span class="muted">${+(+v).toFixed(1)}/${tar}${u?' '+u:''}</span>${extra}</span></div><div class="progress" style="margin-top:5px"><i style="width:${p}%;${p>=100?'background:var(--ok)':''}"></i></div></div>`;}
+function addGoal(){const ex=document.getElementById('gEx').value,txt=document.getElementById('gTxt').value.trim()||(ex?EX[ex].n:''),tar=document.getElementById('gTar').value,reps=document.getElementById('gReps').value;if(!txt||!tar){toast('Pon una descripción y una meta');return;}S.goals.push({text:txt,ex,target:+tar,reps:+reps||1,done:false});save();rMas();toast('🎯 Objetivo añadido');}
+const ymd=x=>x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');
+const addDays=(d,n)=>{const x=new Date(d+'T00:00');x.setDate(x.getDate()+n);return ymd(x);};
+function saveTest(){const t={date:today()};let any=false;TESTS.forEach(x=>{const v=document.getElementById('t_'+x.k).value.replace(',','.');t[x.k]=v;if(v)any=true;});if(!any){toast('Rellena al menos un test');return;}S.tests.push(t);save();rMas();toast('🧪 Test guardado');}
+function drawTest(){const k=document.getElementById('tSel').value;lineChart(document.getElementById('tc'),S.tests.filter(t=>t[k]).map(t=>({x:t.date.slice(5),y:+t[k]})),{color:'#5aa9ff',dec:0});}
+function saveMeasure(){const m={date:today()};let any=false;['peso','alt','brazo','pecho','muslo','cint'].forEach(k=>{const v=document.getElementById('m_'+k).value.replace(',','.');m[k]=v;if(v)any=true;});if(!any){toast('Rellena al menos una medida');return;}S.measures.push(m);save();rMas();toast('📏 Medidas guardadas');}
+function drawMeasure(){const k=document.getElementById('mSel').value;lineChart(document.getElementById('mc'),S.measures.filter(m=>m[k]).map(m=>({x:m.date.slice(5),y:+m[k]})),{color:'#3ecf8e',dec:1});}
+function download(name,txt,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+function exportData(){download('kata_marcos_'+today()+'.json',JSON.stringify(S,null,1),'application/json');toast('Copia exportada');}
+function importData(f){if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.v||!Array.isArray(d.sessions))throw 0;if(confirm(`Se importarán ${d.sessions.length} sesiones y se reemplazarán los datos actuales. ¿Continuar?`)){S=d;save();render();toast('Datos importados');}}catch(e){toast('Archivo no válido');}};r.readAsText(f);}
+function exportCSV(){let c='fecha;dia;semana;ejercicio;serie;peso;reps;rpe\n';S.sessions.forEach(s=>{for(const id in s.entries)s.entries[id].forEach((x,i)=>c+=`${s.date};${s.day};${s.week||weekNum(s.date)};${EX[id]?.n||id};${i+1};${String(x.w).replace('.',',')};${x.r};${x.rpe||''}\n`);});download('kata_marcos_series_'+today()+'.csv','﻿'+c,'text/csv');}
+function demo(){
+  const st=addDays(ymdOf(mondayOf(today())),-21);S.profile.start=st;const base={goblet:12,db_bench:10,lat_pd:30,rdl:10,sh_press_m:15,plank:25,leg_press:60,row_m:30,incline_db:8,leg_curl:20,lat_raise:4,curl:8,dead_bug:0,hip_thrust:30,chest_m:25,trx_row:0,split_sq:6,face_pull:0,tri_ext:8,side_plank:20};
+  const seq=['A','B','C'];let n=0;
+  for(let w=0;w<3;w++)[0,2,5].forEach((dd,i)=>{const date=addDays(st,w*7+dd),day=seq[i],D=DAYS[day],e={};
+    D.ex.forEach(it=>{const ex=EX[it.id],b=base[it.id],inc=n*0.35;e[it.id]=Array.from({length:w<2?2:3},(_,k)=>({w:ex.unit.startsWith('kg')?round(b+inc*ex.inc,ex.inc):0,r:ex.unit==='s'?Math.round(b+n*2):ex.unit==='reps'?8+Math.min(6,n):10+Math.min(2,w)-(k>1?1:0),rpe:7,done:true}));});
+    S.sessions.push({id:Date.now()+n,loc:'gym',date,day,dur:85+Math.round(Math.random()*10),entries:e,cardio:'',feel:3+(n%3===0?1:0),notes:'',prs:[],week:w+1});n++;});
+  S.tests.push({date:st,push:12,plank:45,sq60:38,row500:125,jump:190});S.measures.push({date:st,peso:58,alt:172,brazo:28,pecho:86,muslo:48,cint:72});
+  save();render();toast('Datos de ejemplo cargados');
+}
+
+/* INIT */
+S.weekGoals=S.weekGoals||{};S.outbox=S.outbox||[];if(S.profile.emailOn===undefined)S.profile.emailOn=true;if(!S.profile.wkLoc)S.profile.wkLoc='gym';
+render();
+setTimeout(flushOutbox,1500);
+if(S.active)toast('Tienes una sesión en curso. ¡Sigue!');
+window.addEventListener('resize',()=>{if(CUR==='prog')rProg();});
+</script>
+</body>
+</html>
